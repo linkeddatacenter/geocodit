@@ -1,0 +1,214 @@
+@prefix kees: <http://linkeddata.center/kees/v1#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ter: <http://datiopen.istat.it/odi/ontologia/territorio/> .
+@prefix : <#> .
+
+<> a void:DatasetDescription ;
+	dct:title "Conoscenza amministrativa del territorio italiano"@it ;
+	dct:title "Amministrative knowledge about Italian territory"@en ;
+	dct:description "Comuni, province e regioni italiane estratte da ISTAT. " ;
+	foaf:primaryTopic :istat ; 
+	dct:source :istat ;
+	dct:license <http://creativecommons.org/licenses/by-sa/3.0/>;
+.
+	
+:istat a void:Dataset ;
+	foaf:homepage <http://datiopen.istat.it/> ;	
+	dct:description "Piattaforma sperimentale per i LOD"@it ;
+	dct:license <http://creativecommons.org/licenses/by-sa/3.0/> ;
+	void:sparqlEndpoint <http://datiopen.istat.it/sparql/oracle> ;
+	void:classPartition [
+		dct:subject <http://it.dbpedia.org/resource/Comune>;
+		void:exampleResouce <http://datiopen.istat.it/odi/risorsa/territorio/comuni/Esino_Lario_97035> ;	
+		void:class ter:COM ;
+	];
+	void:classPartition [
+		dct:subject <http://it.dbpedia.org/resource/Provincia>;
+		void:exampleResouce <http://datiopen.istat.it/odi/risorsa/territorio/province/Lecco> ;	
+		void:class ter:PROV ;
+	];
+	void:classPartition [
+		dct:subject <http://it.dbpedia.org/resource/Regione>;
+		void:exampleResouce <http://datiopen.istat.it/odi/risorsa/territorio/regioni/Lombardia> ;	
+		void:class ter:REG ;
+	];
+.
+
+# some syntatctic sugar
+:montly kees:hasFrequencyPeriod 2592000 .
+:tryFourTimes kees:hasResilience 4 .
+
+#######################################################
+# TBOX accrual policies
+#######################################################
+
+[]  a kees:SparqlIngestion
+	rdfs:comment "Carica solo le porzioni necessarie della ontologia del territorio, updated yearly"@it ;
+	kees:generatesGraphType kees:TBoxGraph ;
+	kees:queryName <http://datiopen.istat.it/odi/ontologia/territorio> ;
+	kees:sparqlEndpoint <http://datiopen.istat.it/sparql/oracle>  ;
+	kees:constructQuery """
+	    PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
+	    DESCRIBE ?term
+	    WHERE {
+		    VALUES ?term {
+		    	ter:COM 
+		    	ter:REG
+		    	ter:PROV
+		    	ter:haCodIstat
+		    	ter:regione_di_PROV
+		    	ter:provincia_di_COM
+		    	ter:haNome
+		    }    
+	    } 
+	""" ;
+	kees:onFetchingError :tryFourTimes ; kees:updateFrequency :montly ;
+.
+
+#[] kees:lodLaundromatUrl <http://datiopen.istat.it/dat/ontologie/ontologiaTerritorio.zip> ;
+#	kees:generatesGraphType kees:TBoxGraph ;
+#	kees:createsGraphName <http://datiopen.istat.it/odi/ontologia/territorio> 
+#.
+
+#######################################################
+# ABOX accrual policies
+#######################################################
+
+[]  a kees:SparqlIngestion
+	kees:queryName <urn:istat:comuni> ;
+	kees:sparqlEndpoint <http://datiopen.istat.it/sparql/oracle> ;
+	kees:constructQuery """
+	    PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
+	    CONSTRUCT { 
+	        ?comune a ter:COM ;
+	            ter:provincia_di_COM ?provincia ;
+	            ter:haNome ?nomeComune ;
+	            ter:haCodIstat ?codIstatComune        	               
+	    } WHERE { 
+	        ?comune a ter:COM ;
+	            ter:provincia_di_COM ?provincia ;
+	            ter:haNome ?nomeComune ;
+	            ter:haCodIstat ?codIstatComune        
+	     }
+	""" ;
+	kees:toPage 9 ;
+	kees:onFetchingError :tryFourTimes ; kees:updateFrequency :montly ;
+.
+
+[]  a kees:SparqlIngestion
+	kees:queryName <urn:istat:province> ;
+	kees:sparqlEndpoint <http://datiopen.istat.it/sparql/oracle>  ;
+	kees:constructQuery """
+	    PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
+	    CONSTRUCT {      
+ 	        ?provincia a ter:PROV ;
+	            ter:regione_di_PROV ?regione ;
+	            ter:haCodIstat ?codIstatProv ;
+	            ter:haNome ?nomeProvincia 
+	               
+	    } WHERE {       
+ 	        ?provincia a ter:PROV ;
+	            ter:regione_di_PROV ?regione ;
+	            ter:haCodIstat ?codIstatProv ;
+	            ter:haNome ?nomeProvincia         
+	     } ORDER BY ?nomeProvincia
+	""" ;
+	kees:onFetchingError :tryFourTimes ; kees:updateFrequency :montly ;
+ .
+	
+
+[]  a kees:SparqlIngestion
+	kees:queryName <urn:istat:regioni> ;
+	kees:sparqlEndpoint <http://datiopen.istat.it/sparql/oracle>  ;
+	kees:constructQuery """
+	    PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
+	    CONSTRUCT { ?regione a ter:REG ; ter:haNome ?nomeRegione } 
+	    WHERE { ?regione a ter:REG ; ter:haNome ?nomeRegione }
+	""" ;
+	kees:onFetchingError :tryFourTimes ; kees:updateFrequency :montly ;
+ .
+	
+	
+##########################################################
+# Knowledge fragments
+##########################################################
+
+[] a kees:Table ;
+	dct:identifier "istat:comuni" ;
+	rdfs:label "Comuni_italiani" ;
+	rdfs:comment "Tutti i comuni italiani.  ( Accetta i parametri LIMIT=100 OFFSET=0)";
+	kees:queryText """
+		PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
+		SELECT  ?comune ?codiceIstat ?provincia ?regione ?urlComune
+		WHERE {
+	        GRAPH <urn:istat:comuni> {
+	        	?urlComune a ter:COM ;
+		            ter:haCodIstat ?codIstatComune ;
+		            ter:haNome ?comune ;
+		            ter:provincia_di_COM ?provinciaUrl
+	        }
+	        GRAPH <urn:istat:province> { 
+	        	?provinciaUrl
+	            	ter:haNome ?provincia;  
+	            	ter:haCodIstat ?codIstatProvincia ; 
+	            	ter:regione_di_PROV ?regioneUrl
+			}
+			GRAPH <urn:istat:regioni> {
+	        	?regioneUrl ter:haNome ?regione 
+	        }
+	        BIND( CONCAT( ?codIstatProvincia,?codIstatComune) as ?codiceIstat )   
+		} ORDER BY ?comune LIMIT %LIMIT=100% OFFSET %OFFSET=0%
+	"""
+.
+
+[] a kees:Table ;
+	dct:identifier "istat:provincie" ;
+	rdfs:label "Provincie_italiane" ;
+	rdfs:comment "Tutte le provincie italiane." ;
+	kees:queryText """
+    	PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
+		SELECT  ?provincia ?codIstatProvincia ?regione ?provinciaUrl 
+		WHERE {
+	        GRAPH <urn:istat:province> { 
+	        	?provinciaUrl a ter:PROV ;
+	            	ter:haNome ?provincia;  
+	            	ter:haCodIstat ?codIstatProvincia ; 
+	            	ter:regione_di_PROV ?regioneUrl
+			}
+			GRAPH <urn:istat:regioni> {
+	        	?regioneUrl ter:haNome ?regione 
+	        }
+		} ORDER BY ?provincia 
+	"""
+.
+
+[] a kees:Table ;
+	dct:identifier "istat:regioni" ;
+	rdfs:label "Regioni_italiane" ;
+	rdfs:comment "Tutte le regioni italiane."@it ;
+	kees:queryText """
+    	PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
+		SELECT ?regione ?regioneUrl 
+		FROM <urn:istat:regioni>
+		WHERE {
+		   ?regioneUrl a ter:REG ;ter:haNome ?regione ;      
+		} ORDER BY ?regione
+	"""
+.
+
+[] a kees:Graph ;
+	dct:identifier "istat:entita_territoriali" ;
+	rdfs:label "Unità territoriali"@it ;
+	rdfs:comment "( Accetta i parametri LIMIT=100 OFFSET=0)" ;
+	kees:queryText """
+	    	PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
+			DESCRIBE ?s
+			WHERE {
+				VALUES ?eter { ter:CPM ter:PROV ter:REG }
+				GRAPH ?g {?s a  ?eter }
+			} LIMIT %LIMIT=100% OFFSET %OFFSET=0%
+	"""
+.
