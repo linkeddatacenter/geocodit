@@ -1,0 +1,31 @@
+;; geocodit API configuration file
+;; Please copy this file in geocodit.ini or /etc/geocodit/geocodit.ini and make sure that it is readable by the web server.
+
+;; Enable penality to avoi abuse
+;penality=2
+
+
+;; Supported toponim resolution profile: 
+;; 	cost: try open street map then google maps then bing maps
+;;  quality: bing maps then google maps then open street
+;;  open: try open street 
+;profile = "cost"
+
+
+;; To use Google Geocoding api you need to get an API KEY:
+;; https://developers.google.com/maps/documentation/geocoding/get-api-key
+;; WARNING: if it is not set and you abuse of google maps your ip can be blocked by Google!
+; googleApiKey = "AIzaSyAXCNuO1q0GkfZFy9sKye8FFn67tMEWK.."
+
+;; To use Bing Geocoding api you need to get an API KEY:
+;; see https://msdn.microsoft.com/en-us/library/ff701702.aspx
+;bingApiKey ="Al8-uowD0BbdgcyeciQUPLP5fLdzj5hskyINFc-VnzN0sEcENzo.............."
+
+
+
+;; To use Geocodit geocoder you need LinkedData.Center credential:
+;kid = "demo"
+;secretKey = "demo"
+
+;; This is used by geocode api if no paramether is specified
+; defaultAddress = 'Via Montefiori 13, 23825 Esino Lario'

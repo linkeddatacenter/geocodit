@@ -1,0 +1,201 @@
+@prefix : <http://data.consodata.it/ontology/gecodit#> .
+@prefix gco: <http://geocodit.linkeddata.center/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ter: <http://datiopen.istat.it/odi/ontologia/territorio/> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://geocodit.linkeddata.center/ontology> .
+
+<http://geocodit.linkeddata.center/ontology> rdf:type owl:Ontology ;
+                                             
+                                             rdfs:label "geocodit ontology"@en ;
+                                             
+                                             owl:versionInfo "V 1.0  Release 2016-02-014"@en ;
+                                             
+                                             rdfs:comment "An application ontology for geocodit project"@it .
+
+
+#################################################################
+#
+#    Object Properties
+#
+#################################################################
+
+
+###  http://datiopen.istat.it/odi/ontologia/territorio/provincia_di_COM
+
+ter:provincia_di_COM rdf:type owl:ObjectProperty .
+
+
+
+###  http://geocodit.linkeddata.center/ontology#haComune
+
+gco:haComune rdf:type owl:FunctionalProperty ,
+                      owl:ObjectProperty ;
+             
+             rdfs:label "ha Comune"@it ;
+             
+             rdfs:comment "il luogo annotato è all'interno del comune riferito."@it ;
+             
+             rdfs:range gco:Comune ;
+             
+             rdfs:domain gco:Luogo .
+
+
+
+
+
+#################################################################
+#
+#    Data properties
+#
+#################################################################
+
+
+###  http://datiopen.istat.it/odi/ontologia/territorio/haCodIstat
+
+ter:haCodIstat rdf:type owl:DatatypeProperty .
+
+
+
+###  http://datiopen.istat.it/odi/ontologia/territorio/haNome
+
+ter:haNome rdf:type owl:DatatypeProperty .
+
+
+
+###  http://geocodit.linkeddata.center/ontology#cap
+
+gco:cap rdf:type owl:DatatypeProperty ;
+        
+        rdfs:label "cap"@it ;
+        
+        rdfs:comment "Codice di avviamento postale"@it ;
+        
+        rdfs:domain gco:Comune ;
+        
+        rdfs:range xsd:string .
+
+
+
+###  http://geocodit.linkeddata.center/ontology#haCivico
+
+gco:haCivico rdf:type owl:DatatypeProperty ,
+                      owl:FunctionalProperty ;
+             
+             rdfs:label "ha numero civico"@it ;
+             
+             rdfs:comment "il luogo è identificato dal numero civico riferito (un alfanumerico)"@it ;
+             
+             rdfs:domain gco:Luogo ;
+             
+             rdfs:range xsd:string .
+
+
+
+###  http://geocodit.linkeddata.center/ontology#haStrada
+
+gco:haStrada rdf:type owl:DatatypeProperty ,
+                      owl:FunctionalProperty ;
+             
+             rdfs:label "ha strada"@it ;
+             
+             rdfs:comment "il luogo annotato è posto sulla strada del nome riferito."@it ;
+             
+             rdfs:domain gco:Luogo ;
+             
+             rdfs:range xsd:string .
+
+
+
+###  http://www.w3.org/2002/07/owl#topDataProperty
+
+owl:topDataProperty rdf:type owl:FunctionalProperty ;
+                    
+                    rdfs:domain gco:Luogo .
+
+
+
+
+
+#################################################################
+#
+#    Classes
+#
+#################################################################
+
+
+###  http://datiopen.istat.it/odi/ontologia/territorio/COM
+
+ter:COM rdf:type owl:Class .
+
+
+
+###  http://datiopen.istat.it/odi/ontologia/territorio/PROV
+
+ter:PROV rdf:type owl:Class .
+
+
+
+###  http://geocodit.linkeddata.center/ontology#Comune
+
+gco:Comune rdf:type owl:Class ;
+           
+           rdfs:label "Comune"@it ;
+           
+           rdfs:subClassOf ter:COM ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty ter:provincia_di_COM ;
+                             owl:onClass ter:PROV ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty ter:haNome ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onDataRange xsd:string
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty gco:cap ;
+                             owl:someValuesFrom xsd:string
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty ter:haCodIstat ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onDataRange xsd:string
+                           ] ;
+           
+           rdfs:comment "Comunte italiano"@it .
+
+
+
+###  http://geocodit.linkeddata.center/ontology#Luogo
+
+gco:Luogo rdf:type owl:Class ;
+          
+          rdfs:label "Luogo"@it ;
+          
+          rdfs:subClassOf [ rdf:type owl:Restriction ;
+                            owl:onProperty gco:haComune ;
+                            owl:onClass gco:Comune ;
+                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty gco:haStrada ;
+                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onDataRange xsd:string
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty gco:haCivico ;
+                            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onDataRange xsd:string
+                          ] ;
+          
+          rdfs:comment "Un luogo dotato di latitudine e longitudine collocato in un comune"@it .
+
+
+
+
+###  Generated by the OWL API (version 3.5.1) http://owlapi.sourceforge.net
+

@@ -1,0 +1,27 @@
+{
+    "name": "linkeddatacenter/geocodit",
+    "description": "RESTful APIs for geocodit",
+    "type": "project",
+    "homepage": "https://bitbucket.org/linkeddatacenter/geocodit",
+    "license": "Proprietary - All Rights Reserved for LinkedData.Center",
+    "authors": [
+        {
+            "name": "Enrico Fagnoni",
+            "email": "enrico@LinkedData.Center"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "botk/context": "~4.1",
+		"botk/rdf": "~4.1",
+        "botk/core": "~5.1",
+        "easyrdf/easyrdf": "~0.9",
+        "ml/json-ld": "*",
+        "willdurand/geocoder": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Geocodit\\": "library/Geocodit"
+        }
+    }
+}

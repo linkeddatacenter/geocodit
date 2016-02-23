@@ -1,0 +1,17 @@
+RewriteEngine On
+
+# Request redirect with response code 301 "Permanently moved" if a trailing
+# / was found. This will indicate to search engines that the content is 
+# the same and that we prefer not using a slash.
+RewriteCond %{ENV:REDIRECT_STATUS} =""
+RewriteRule ^(.*)/$  /$1 [R=301,L]
+
+# Redirect all requests not pointing at an actual file to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule . index.php [L] 
+
+php_flag display_startup_errors on
+php_flag display_errors on
+php_flag html_errors on
+php_flag log_errors on
+
