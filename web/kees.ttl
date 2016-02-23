@@ -6,18 +6,16 @@
 @prefix ter: <http://datiopen.istat.it/odi/ontologia/territorio/> .
 @prefix : <#> .
 
-<> a void:DatasetDescription ;
-	dct:title "Geocodit knowledge description"@en ;
-	dct:description "Geocodit Knowlege Exchange Engine Schema (KEES) description file"@en ;
-	dct:license <http://creativecommons.org/licenses/by-nc-sa/4.0/>;
-.
-	
-# some syntactic sugar
+#######################################################################
+# Geocodit Knowlege Exchange Engine Schema (KEES) description file
+# license http://creativecommons.org/licenses/by-nc-sa/4.0/
+#######################################################################
+
+
+# here some syntactic sugar
 :yearly kees:hasFrequencyPeriod 31536000 .
 :montly kees:hasFrequencyPeriod 2592000 .
 :tryFourTimes kees:hasResilience 4 .
-
-[] kees:includes <http://linkeddata.center/knowledge/introspection.ttl> .
 
 #######################################################
 # Luoghi by linkedgeodata
