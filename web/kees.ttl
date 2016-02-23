@@ -13,9 +13,9 @@
 
 
 # here some syntactic sugar
-:yearly kees:hasFrequencyPeriod 31536000 .
-:montly kees:hasFrequencyPeriod 2592000 .
-:tryFourTimes kees:hasResilience 4 .
+_:yearly kees:hasFrequencyPeriod 31536000 .
+_:montly kees:hasFrequencyPeriod 2592000 .
+_:tryFourTimes kees:hasResilience 4 .
 
 #######################################################
 # Luoghi by linkedgeodata
@@ -48,7 +48,7 @@
 		} ORDER BY ?lat ?long
 	""" ;
 	kees:pageSize 1500; kees:toPage 100 ;
-	kees:onFetchingError :tryFourTimes ; kees:updateFrequency :montly ;
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:montly ;
 .
 
 [] kees:ruleText """
@@ -89,7 +89,7 @@
 		} ORDER BY ?idIstat
 	""" ;
 	kees:pageSize 5000; kees:toPage 10 ;
-	kees:onFetchingError :tryFourTimes ; kees:updateFrequency :montly ;
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:montly ;
 .
 
 
@@ -120,7 +120,7 @@
 	     } ORDER BY ?uriIstat
 	""" ;
 	kees:pageSize 2000; kees:toPage 20 ;
-	kees:onFetchingError :tryFourTimes ; kees:updateFrequency :montly ;
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:montly ;
 .
 
 []  a kees:SparqlIngestion
@@ -141,7 +141,7 @@
 	            ter:haNome ?nomeProvincia         
 	     } ORDER BY ?provincia
 	""" ;
-	kees:onFetchingError :tryFourTimes ; kees:updateFrequency :yearly ;
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly ;
  .
 	
 
@@ -153,7 +153,7 @@
 	    CONSTRUCT { ?regione a ter:REG ; ter:haNome ?nomeRegione } 
 	    WHERE { ?regione a ter:REG ; ter:haNome ?nomeRegione }
 	""" ;
-	kees:onFetchingError :tryFourTimes ; kees:updateFrequency :yearly ;
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly ;
  .
 
 
