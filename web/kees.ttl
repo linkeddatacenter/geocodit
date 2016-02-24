@@ -104,7 +104,7 @@ _:tryFourTimes kees:hasResilience 4 .
 
 
 
-[]  a kees:SparqlIngestion
+[]  a kees:SparqlIngestion ;
 	kees:queryName <urn:istat:centriabitati> ;
 	kees:sparqlEndpoint <http://datiopen.istat.it/sparql/oracle> ;
 	kees:constructQuery """
@@ -124,7 +124,7 @@ _:tryFourTimes kees:hasResilience 4 .
 .
 
 
-[]  a kees:SparqlIngestion
+[]  a kees:SparqlIngestion ;
 	kees:queryName <urn:istat:comuni> ;
 	kees:sparqlEndpoint <http://datiopen.istat.it/sparql/oracle> ;
 	kees:constructQuery """
@@ -146,7 +146,7 @@ _:tryFourTimes kees:hasResilience 4 .
 	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:montly ;
 .
 
-[]  a kees:SparqlIngestion
+[]  a kees:SparqlIngestion ;
 	kees:queryName <urn:istat:province> ;
 	kees:sparqlEndpoint <http://datiopen.istat.it/sparql/oracle>  ;
 	kees:constructQuery """
@@ -168,7 +168,7 @@ _:tryFourTimes kees:hasResilience 4 .
  .
 	
 
-[]  a kees:SparqlIngestion
+[]  a kees:SparqlIngestion ;
 	kees:queryName <urn:istat:regioni> ;
 	kees:sparqlEndpoint <http://datiopen.istat.it/sparql/oracle>  ;
 	kees:constructQuery """
@@ -323,6 +323,6 @@ _:tryFourTimes kees:hasResilience 4 .
 	rdfs:comment "Denominazioni urbanistiche generiche valdate da Istat"@it ;
 	kees:queryText """
 		PREFIX  skos: <http://www.w3.org/2004/02/skos/core#> 
-		SELECT ?dug FROM <http://geocodit.linkeddata.center/gw/dug> WHERE { ?dug skos:prefLabel ?dug }
+		SELECT ?dug FROM <http://geocodit.linkeddata.center/gw/dug> WHERE { ?dugUri skos:prefLabel ?dug }
 	"""
 .
