@@ -87,7 +87,7 @@ provide your LinkedData.Center credential as basic http authentication. Data int
 
 ### Using geocoding apis
 
-The geocodit API enpoint will be available at <your server ip or FQDN>/api (e.g. http://geocoditdemo.linkeddata.center/api)
+The geocodit API enpoint will be available at <your server ip or FQDN>/api (e.g. http://geocodit.linkeddata.center/api)
 
 **Usage:**
 - geocode?q=*address*[& profile=cost|quality] : returns address geolocation using a gecoding profile optimization(default: cost).

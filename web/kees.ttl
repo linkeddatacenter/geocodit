@@ -4,7 +4,8 @@
 @prefix void: <http://rdfs.org/ns/void#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix ter: <http://datiopen.istat.it/odi/ontologia/territorio/> .
-@prefix : <#> .
+
+[] kees:includes <http://linkeddata.center/project/kees/1.1.19/v1/introspection.ttl> .
 
 #######################################################################
 # Geocodit Knowlege Exchange Engine Schema (KEES) description file
@@ -28,14 +29,16 @@ _:tryFourTimes kees:hasResilience 4 .
 		PREFIX lgdo: <http://linkedgeodata.org/ontology/addr%3A>
 		PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
 		PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
-		PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+		PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    	PREFIX owl: <http://www.w3.org/2002/07/owl#>
 		CONSTRUCT {
 			?s a gco:Luogo ;
-				gco:placeholderComune ?italianCity ;
-			    gco:haCivico ?housenumber ;
-			    gco:haStrada ?street;
+				gco:haComune ?uriComune  ;
+			    gco:haNumeroCivico ?housenumber ;
+			    gco:haToponimoStradale ?italianStreet;
 			    geo:lat ?lat;
 			    geo:long ?long.
+			?uriComune rdfs:label ?italianCity .
 		} WHERE {
 			?s
 			    lgdo:country "IT";
@@ -45,6 +48,8 @@ _:tryFourTimes kees:hasResilience 4 .
 			    geo:lat ?lat;
 			    geo:long ?long.
 			    BIND ( strlang(?city, 'it') AS ?italianCity )
+			    BIND ( strlang(?street, 'it') AS ?italianStreet )
+			    BIND ( IRI( CONCAT('urn:comune:',MD5(?city))) AS ?uriComune )
 		} ORDER BY ?lat ?long
 	""" ;
 	kees:pageSize 1500; kees:toPage 100 ;
@@ -52,15 +57,13 @@ _:tryFourTimes kees:hasResilience 4 .
 .
 
 [] kees:ruleText """
-		PREFIX lgdo: <http://linkedgeodata.org/ontology/addr%3A>
-		PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
 	    PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
 		IF {
-			GRAPH ?g { ?s gco:placeholderComune ?city }
-			GRAPH <urn:istat:comuni> { ?url a gco:Comune ; ter:haNome ?city }
+			GRAPH <urn:linkedgeodata:civic> { ?uriComune rdfs:label ?city }
+			GRAPH <urn:istat:comuni> { ?urlIstat ter:haNome ?city }
 		}
 		THEN {
-			?s gco:haComune ?url .
+			?uriComune owl:sameAs ?urlIstat
 		}
 """ .
 
@@ -97,6 +100,29 @@ _:tryFourTimes kees:hasResilience 4 .
 # Administrative data from ISTAT
 #######################################################
 
+[]  kees:source <http://geocodit.linkeddata.center/gw/dug> ; kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly .
+
+
+
+[]  a kees:SparqlIngestion
+	kees:queryName <urn:istat:centriabitati> ;
+	kees:sparqlEndpoint <http://datiopen.istat.it/sparql/oracle> ;
+	kees:constructQuery """
+	    PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
+	    CONSTRUCT { 
+	        ?uriIstat a ter:LOC ;
+	            ter:comune_di_LOC ?comune ;
+	            ter:haNome ?nomeLoc 
+	    } WHERE { 
+	        ?uriIstat a ter:LOC ;
+	            ter:comune_di_LOC ?comune ;
+	            ter:haNome ?nomeLoc 
+	     } ORDER BY ?uriIstat
+	""" ;
+	kees:pageSize 3000; kees:toPage 200 ;
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:montly ;
+.
+
 
 []  a kees:SparqlIngestion
 	kees:queryName <urn:istat:comuni> ;
@@ -104,13 +130,10 @@ _:tryFourTimes kees:hasResilience 4 .
 	kees:constructQuery """
 	    PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
 		PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
-		PREFIX dct: <http://purl.org/dc/terms/>
-		PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
 	    CONSTRUCT { 
 	        ?uriIstat a gco:Comune; 
 	            ter:provincia_di_COM ?provincia ;
 	            ter:haNome ?nomeComune;
-	            rdfs:label ?nomeComune;
 	            ter:haCodIstat ?codIstatComune         
 	    } WHERE { 
 	        ?uriIstat a ter:COM ;
@@ -171,13 +194,44 @@ _:tryFourTimes kees:hasResilience 4 .
 		PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
 		PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
     	PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
-		SELECT ?source ?indirizzo ?civico ?comune ?codIstat ?lat ?long
+		SELECT ?toponimo_stradale ?n_civico ?comune ?cod_istat ?lat ?long ?source
 		WHERE {
-	        GRAPH ?g1 { ?luogo a gco:Luogo }
-	        GRAPH ?g2 { ?luogo gco:haComune ?comuneUri }
-	        GRAPH ?source { ?luogo gco:haStrada ?indirizzo; geo:lat ?lat; geo:long ?long. OPTIONAL { ?luogo gco:haCivico ?civico} }
-	        OPTIONAL { GRAPH ?g4 { ?comuneUri ter:haNome ?comune; ter:haCodIstat ?codIstat  } }
-		} ORDER BY ?luogo LIMIT %LIMIT=100% OFFSET %OFFSET=0%
+	        GRAPH ?g1 { 
+	        	?source  
+	        		gco:haComune ?uriComune ; 
+	        		gco:haToponimoStradale ?toponimo_stradale; 
+	        		geo:lat ?lat; 
+	        		geo:long ?long 
+	        		OPTIONAL { ?source gco:haNumeroCivico ?n_civico}
+			}
+			{ 
+				GRAPH <urn:istat:comuni> { ?uriComune ter:haNome ?comune; ter:haCodIstat ?cod_istat  }  
+			} UNION {
+				GRAPH ?g2 { ?uriComune owl:sameAs ?ref  }
+				GRAPH <urn:istat:comuni> { ?ref ter:haNome ?comune; ter:haCodIstat ?cod_istat  } 
+			}
+		} ORDER BY ?source LIMIT %LIMIT=100% OFFSET %OFFSET=0%
+	"""
+.
+
+
+[] a kees:Table ;
+	dct:identifier "istat:centriabitati" ;
+	rdfs:label "Località italiane"@it ;
+	rdfs:comment "Tutte le località italiane. ( Accetta i parametri LIMIT=100 OFFSET=0) "@it ;
+	kees:queryText """
+    	PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
+		SELECT ?nome ?comune ?source 
+		WHERE {
+		   GRAPH <urn:istat:centriabitati> {
+			   ?source a ter:LOC ;
+				   	ter:haNome ?nome ;
+				   	ter:comune_di_LOC ?urlComune
+		   }
+		   GRAPH <urn:istat:comuni> {
+		   		?urlComune ter:haNome ?comune
+		   }    
+		} ORDER BY ?comune LIMIT %LIMIT=100% OFFSET %OFFSET=0%
 	"""
 .
 
@@ -188,11 +242,11 @@ _:tryFourTimes kees:hasResilience 4 .
 	kees:queryText """
 		PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
 		PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
-		SELECT  ?comune ?codIstat ?provincia ?regione ?urlComune
+		SELECT  ?comune ?cod_istat ?provincia ?regione ?source
 		WHERE {
 	        GRAPH <urn:istat:comuni> {
-	        	?urlComune a gco:Comune ;
-		            ter:haCodIstat ?codIstat ;
+	        	?source a gco:Comune ;
+		            ter:haCodIstat ?cod_istat ;
 		            ter:haNome ?comune ;
 		            ter:provincia_di_COM ?provinciaUrl
 	        }
@@ -214,12 +268,12 @@ _:tryFourTimes kees:hasResilience 4 .
 	rdfs:comment "Tutte le provincie italiane."@it ;
 	kees:queryText """
     	PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
-		SELECT  ?provincia ?codIstat ?regione ?seeAlso 
+		SELECT  ?provincia ?cod_istat ?regione ?source 
 		WHERE {
 	        GRAPH <urn:istat:province> { 
-	        	?seeAlso a ter:PROV ;
+	        	?source a ter:PROV ;
 	            	ter:haNome ?provincia;  
-	            	ter:haCodIstat ?codIstat ; 
+	            	ter:haCodIstat ?cod_istat ; 
 	            	ter:regione_di_PROV ?regioneUrl
 			}
 			GRAPH <urn:istat:regioni> {
@@ -235,45 +289,40 @@ _:tryFourTimes kees:hasResilience 4 .
 	rdfs:comment "Tutte le regioni italiane."@it ;
 	kees:queryText """
     	PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
-		SELECT ?regione ?seeAlso 
+		SELECT ?regione ?source 
 		FROM <urn:istat:regioni>
 		WHERE {
-		   ?seeAlso a ter:REG ;ter:haNome ?regione ;      
+		   ?source a ter:REG ;ter:haNome ?regione ;      
 		} ORDER BY ?regione
 	"""
 .
 
+
 [] a kees:Table ;
-	dct:identifier "cap" ;
+	dct:identifier "wikidata:cap" ;
 	rdfs:label "Codici avviamento postale"@it ;
 	rdfs:comment "Accetta i parametri LIMIT(dafault=100) OFFSET (default=0)"@it ;
 	kees:queryText """
 	    PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
     	PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
-		SELECT ?comune ?cap ?codIstat 
+		SELECT ?comune ?cap ?cod_istat ?source
 		WHERE {
 			GRAPH <urn:istat:comuni> {
 				?urlComune a gco:Comune ;
 				    ter:haNome ?comune ;
-				    ter:haCodIstat ?codIstat;
+				    ter:haCodIstat ?cod_istat;
 			}
-			GRAPH <urn:wikidata:cap> { []  ter:haCodIstat ?codIstat; gco:cap ?cap }
+			GRAPH <urn:wikidata:cap> { ?source  ter:haCodIstat ?cod_istat; gco:cap ?cap }
 		} ORDER BY ?comune LIMIT %LIMIT=100% OFFSET %OFFSET=0%
 	"""
 .
 
-
-[] a kees:Graph ;
-	dct:identifier "amministrazioni" ;
-	rdfs:label "Unità territoriali"@it ;
-	rdfs:comment "Accetta i parametri LIMIT(dafault=100) OFFSET (default=0)"@it ;
+[] a kees:Table ;
+	dct:identifier "istat:dug" ;
+	rdfs:label "Denominazioni urbanistiche generiche"@it ;
+	rdfs:comment "Denominazioni urbanistiche generiche valdate da Istat"@it ;
 	kees:queryText """
-    	PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
-    	PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
-		DESCRIBE ?s
-		WHERE {
-			VALUES ?eter { gco:Comune ter:PROV ter:REG }
-			GRAPH ?g {?s a  ?eter }
-		} ORDER BY ?s LIMIT %LIMIT=100% OFFSET %OFFSET=0%
+		PREFIX  skos: <http://www.w3.org/2004/02/skos/core#> 
+		SELECT ?dug FROM <http://geocodit.linkeddata.center/gw/dug> WHERE { ?dug skos:prefLabel ?dug }
 	"""
 .

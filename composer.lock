@@ -4,9 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4d4590f4e3fcdda8f4e20d5b6a724495",
-    "content-hash": "095a33fdd6a80e05a153d5e1ca4fa744",
+    "hash": "63990df3afad144a26d8ac767bbebcf8",
+    "content-hash": "833a47ccf0d6d9f695250c414bf67382",
     "packages": [
+        {
+            "name": "PHPOffice/PHPExcel",
+            "version": "1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/PHPExcel.git",
+                "reference": "1.8.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPExcel": "Classes/"
+                }
+            }
+        },
         {
             "name": "bitworking/mimeparse",
             "version": "2.2.0",

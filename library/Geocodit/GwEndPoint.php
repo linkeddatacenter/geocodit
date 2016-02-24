@@ -21,7 +21,7 @@ class GwEndPoint extends \BOTK\Core\EndPoint {
     	
 		//  define here available gateways services
 		$gateways = array(
-			 //'nome'	=>  function() { return new Gateway\GWClass('http://data.example.com/source2');},
+			 'dug'	=>  function() { return new Gateway\DUG('http://www.agenziaentrate.gov.it/wps/file/Nsilib/Nsi/Home/CosaDeviFare/Consultare+dati+catastali+e+ipotecari/Scambio+dati+catastali+e+cartografici+con+enti+o+PA/Portale+per+i+Comuni/Servizi+portale+dei+comuni/toponomastica/Elenco+DUG/Copia+di+DUG_VALIDE_16122014.xls');},
 		);
 
     	$this->get('/', array_keys($gateways))

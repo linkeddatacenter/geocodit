@@ -11,8 +11,7 @@
 namespace Geocodit\Gateway;
 
 interface  GatewayInterface {
-    public function __construct($name, $sourceUrl);
-	public function getName();
+    public function __construct($sourceUrl);
 	public function getSource();
 	public function getStream();
 }

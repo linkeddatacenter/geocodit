@@ -61,15 +61,24 @@
 	  			newWindow.focus();
 	  		}
 	  	</script>
-	  	<h3>Knowledge base views:</h3>
-	  	 <p>Enter your LinkedData.Center endpoint here:  <input id='endpoint', size="30" value="https://hub1.linkeddata.center/demo"></p>
+	  	<h3>Knowledge base :</h3>
+	  	 <p>Enter your LinkedData.Center knowledge base endpoint here:  <input id='endpoint', size="30" value="https://hub1.linkeddata.center/demo"></p>
 	      <ul>
 	      		<li><a onclick="myopen('kees.ttl', true);">Geocodit Knowledge Exchange Engine Schema (RDF turtle graph)</a></li>
+	      </ul>
+	  	<h3>Data views:</h3>
+	      <ul>
 	      		<li><a onclick="myopen('/table/gecodit:luoghi');">Numeri civici</a> (auth required)</li>
 	      		<li><a onclick="myopen('/table/istat:comuni');">Comuni</a> (auth required)</li>
 	      		<li><a onclick="myopen('/table/istat:provincie');">Provincie</a> (auth required)</li>
 	      		<li><a onclick="myopen('/table/istat:regioni');">Regioni</a> (auth required)</li>
-	      		<li><a onclick="myopen('/queries');">See all...</a>(auth required)</li>
+	      		<li><a onclick="myopen('/table/istat:dug');">DUG</a> (auth required)</li>
+	      </ul>
+	   </div>
+	  <div>
+	  	<h3>Data gateways:</h3>
+	      <ul>
+	      		<li><a href="dug">Denominazioni urbanistiche generiche valdate da Istat</a></li>
 	      </ul>
 	   </div>
 		<hr>

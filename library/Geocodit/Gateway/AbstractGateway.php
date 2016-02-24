@@ -15,16 +15,14 @@
 
 namespace Geocodit\Gateway;
 
-class AbstractGateway implements GatewayInterface {
-	protected  $name,$source;
+abstract class AbstractGateway implements GatewayInterface {
+	protected  $source;
 	
-    public function __construct($name, $source) {
-		$this->name = $name;
+    public function __construct($source) {
 		$this->source = $source;
     }
 
-	public function getSource(){ return $this->sourc;}
-	public function getName(){ return $this->name;}
+	public function getSource(){ return $this->source;}
 	abstract public function getStream();
 	
 } //END
