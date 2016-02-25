@@ -57,8 +57,8 @@ _:tryFourTimes kees:hasResilience 4 .
 # Luoghi gateway
 #######################################################
 
-#[]  kees:source <http://geocodit.linkeddata.center/gw/farmacie> ; kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly .
-#[]  kees:source <http://geocodit.linkeddata.center/gw/parafarmacie> ; kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly .
+[]  kees:source <http://geocodit.linkeddata.center/gw/farmacie> ; kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly .
+[]  kees:source <http://geocodit.linkeddata.center/gw/parafarmacie> ; kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly .
 
 #######################################################
 # Use Wikidata to enrich istat comune info with  zip codes
@@ -187,13 +187,13 @@ _:tryFourTimes kees:hasResilience 4 .
 	    PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
 		IF {
 			GRAPH ?g { 
-				?luogo a gco:luogo ;
+				?luogo a gco:Luogo ;
 				gco:haComune ?uriComune  ;
 			    gco:haNumeroCivico ?housenumber ;
 			    gco:haToponimoStradale ?street 
 			}
 			GRAPH <urn:istat:comuni> { ?uriComune owl:sameAs [ a gco:Comune ;  ter:haNome ?city ] } 			
-			BIND(IRI(CONCAT('urn:uuid:', MD5(UCASE(REPLACE(CONCAT(?street,?housenumber,?city ),"[^\\w]",''))))) AS ?searchUri  )
+			BIND(IRI(CONCAT('urn:uuid:', MD5(UCASE(REPLACE(CONCAT(?street,?housenumber,?city ),"[^a-zA-Z0-9]",""))))) AS ?searchUri  )
 		}
 		THEN {
 			?searchUri owl:sameAs ?luogo

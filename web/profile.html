@@ -55,57 +55,60 @@
       <li  typeof="rdfa:PrefixMapping"> <b><span  property="rdfa:prefix">rdfs</span>:</b>
         <span  property="rdfa:uri">http://www.w3.org/2000/01/rdf-schema#</span>
       </li>
-       <li  typeof="rdfa:PrefixMapping"> <b><span  property="rdfa:prefix">skos</span>:</b>
-        <span  property="rdfa:uri">http://www.w3.org/2004/02/skos/core#</span>
-      </li>
+      <li  typeof="rdfa:PrefixMapping"> <b><span  property="rdfa:prefix">skos</span>:</b>
+        <span  property="rdfa:uri">http://www.w3.org/2004/02/skos/core#</span> </li>
     </ul>
     <br>
     This document can be imported as a RDFa 1.1 profile.
     <h2>Geocodit ontology</h2>
     <p>The <a  href="ontology.ttl">geocodit ontology</a> refines some terms
-      used to annotate linked data.You should understand all ontology terms:</p>
+      used to annotate linked data.You should understand all ontology terms.</p>
+    <p>A special algorithm should be used for each for <span  style="font-weight: bold;">gco:Luogo</span>
+      objecs in order to make them&nbsp; searchable by geocodit geocoder. Here
+      you find the equivalent SPARQL construct:</p>
+    <pre>CONSTRUCT&nbsp; { ?searchUri owl:sameAs ?luogo }&nbsp; WHERE {<br>  GRAPH ?g { <br>    ?luogo a gco:Luogo ;<br>             gco:haComune ?uriComune  ;<br>             gco:haNumeroCivico ?housenumber ;<br>             gco:haToponimoStradale ?street <br>  }<br>  GRAPH <urn:istat:comuni> { ?uriComune owl:sameAs [ a gco:Comune ;  ter:haNome ?city ] }             <br>  BIND(IRI(CONCAT('urn:uuid:', MD5(UCASE(REPLACE(CONCAT(?street,?housenumber,?city ),"[^\\w]",''))))) AS ?searchUri  )<br>}</urn:istat:comuni></pre>
+		<p><br></p>
+		
     <h2>Ontologia del territorio</h2>
     <p>The <a  href="http://datiopen.istat.it/datasetOntologie.php?call=ontologie">ontologia
         del territorio</a> is published by ISTAT. </p>
     <p>You should understand at least following terms:</p>
     <ul>
       <li><a  href="http://datiopen.istat.it/odi/ontologia/territorio/COM"><span
-             style="font-weight: bold;">ter:COM</span></a> used as master class
-        for gco:Comune class<span  style="font-weight: bold;"></span></li>
+ style="font-weight: bold;">ter:COM</span></a> <span  style="font-weight: bold;"></span></li>
       <li><a  href="http://datiopen.istat.it/odi/ontologia/territorio/REG"><span
-             style="font-weight: bold;">ter:REG</span></a></li>
+ style="font-weight: bold;">ter:REG</span></a></li>
       <li><a  href="http://datiopen.istat.it/odi/ontologia/territorio/PROV"><span
-             style="font-weight: bold;">ter:PROV</span></a></li>
+ style="font-weight: bold;">ter:PROV</span></a></li>
       <li><a  href="http://datiopen.istat.it/odi/ontologia/territorio/regione_di_PROV"><span
-             style="font-weight: bold;">ter:regione_di_PROV</span></a></li>
+ style="font-weight: bold;">ter:regione_di_PROV</span></a></li>
       <li><a  href="http://datiopen.istat.it/odi/ontologia/territorio/provincia_di_COM"><span
-             style="font-weight: bold;">ter:provincia_di_COM</span></a></li>
+ style="font-weight: bold;">ter:provincia_di_COM</span></a></li>
       <li><a  href="http://datiopen.istat.it/odi/ontologia/territorio/haNome"><span
-             style="font-weight: bold;">ter:haNome</span></a> </li>
-      <li><a  href="http://datiopen.istat.it/odi/ontologia/territorio/haCodIstat"><span
-
-             style="font-weight: bold;">ter:haCodIstat</span></a> </li>
+ style="font-weight: bold;">ter:haNome</span></a> </li>
+      <li><a  href="http://datiopen.istat.it/odi/ontologia/territorio/haCodIstat"><span
+ style="font-weight: bold;">ter:haCodIstat</span></a> </li>
     </ul>
     <p>All the properties must be considered restricted to cardinality =1 (ie.
       exactly a value for each attribute)</p>
     <h2>Basic Geo (WGS84 lat/long) Vocabulary</h2>
     <p><span  style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);"><a
-           href="https://www.w3.org/2003/01/geo/">Geo</a> is a<span  class="Apple-converted-space">&nbsp;</span></span><em
-         style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">basic</em><span
-         style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);"><span
-           class="Apple-converted-space"> </span>W3C RDF vocabulary that
+ href="https://www.w3.org/2003/01/geo/">Geo</a> is a<span  class="Apple-converted-space"> </span></span><em
+ style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">basic</em><span
+ style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);"><span
+ class="Apple-converted-space"> </span>W3C RDF vocabulary that
         provides the Semantic Web community with a namespace for representing<span
-           class="Apple-converted-space">&nbsp;</span></span><strong  style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">lat</strong><span
-         style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);">(itude),<span
-           class="Apple-converted-space">&nbsp;</span></span><strong  style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">long</strong><span
-         style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);">(itude)
+ class="Apple-converted-space"> </span></span><strong  style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">lat</strong><span
+ style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);">(itude),<span
+ class="Apple-converted-space"> </span></span><strong  style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">long</strong><span
+ style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);">(itude)
         and other information about spatially-located things, using WGS84 as a
         reference datum.</span></p>
     <ul>
     </ul>
     <h2>RDF Schema 1.1 </h2>
     <p><a  href="https://www.w3.org/TR/rdf-schema/"><span  style="color: rgb(42, 100, 150);"><span
-             style="text-decoration: underline;">RDF Schema 1.1</span></span></a>&nbsp;&nbsp;
+ style="text-decoration: underline;">RDF Schema 1.1</span></span></a>  
       provides a data-modelling vocabulary for RDF data. RDF Schema is an
       extension of the basic RDF vocabulary.</p>
     <p>You should understand only following term:</p>
@@ -118,8 +121,8 @@
         no special meaning asociated</li>
     </ul>
     <h2>SKOS</h2>
-    <p><a  href="https://www.w3.org/TR/skos-primer/"><span  style="color: rgb(42, 100, 150);"><span
-             style="text-decoration: underline;">SKOS</span></span></a>&nbsp;&nbsp;
+    <p><a  href="https://www.w3.org/TR/skos-primer/"><span  style="color: rgb(42, 100, 150);"><span
+ style="text-decoration: underline;">SKOS</span></span></a>  
       provides a taxonomy vocabulary used for static lassification of some standard terms like DUG (Denominazioni urbanistiche generiche).</p>
     <p>You should understand only following term:</p>
     <ul>
@@ -144,5 +147,4 @@
         Attribution-NonCommercial-NoDerivatives 4.0 International Unported
         License <img  alt="Creative Commons License"  style="border-width:0"  src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
       </a>. </p>
-  </body>
-</html>
+</body></html>
