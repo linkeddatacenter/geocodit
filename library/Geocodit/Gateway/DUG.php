@@ -18,10 +18,11 @@ namespace Geocodit\Gateway;
 class DUG extends AbstractGateway {
 
 	public function getStream(){
+		$source = $this->getSource();
 		
 		// download source stream in a temporary file
 		$tmpfname = tempnam(sys_get_temp_dir(), 'DUG');
-		copy($this->getSource(),$tmpfname);
+		copy($source,$tmpfname);
 
 		// load Excel object		
 		$objReader = new \PHPExcel_Reader_Excel5();
@@ -38,7 +39,7 @@ class DUG extends AbstractGateway {
 
 dug:schema a skos:ConceptScheme ;
 	dct:title \"Elenco DUG validate da Istat\"@it  ;
-	dct:source <http://www.agenziaentrate.gov.it/wps/file/Nsilib/Nsi/Home/CosaDeviFare/Consultare+dati+catastali+e+ipotecari/Scambio+dati+catastali+e+cartografici+con+enti+o+PA/Portale+per+i+Comuni/Servizi+portale+dei+comuni/toponomastica/Elenco+DUG/Copia+di+DUG_VALIDE_16122014.xls>
+	dct:source <$source>
 .
 ");
 				
