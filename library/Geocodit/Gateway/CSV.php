@@ -29,6 +29,16 @@ class CSV extends AbstractGateway {
 		$this->selector = $function;
 		return $this ;
 	}
+	
+	protected function float($str) {            
+        if(strstr($str, ',')) {
+            // A comma exists, that makes it easy, cos we assume it separates the decimal part.
+            $str = str_replace('.', '', $str);    // Erase thousand seps
+            $str = str_replace(',', '.', $str);    // Convert , to . for floatval command  
+        }
+		return floatval($str);
+    }
+
 
 	public function getStream(){
 		
@@ -53,6 +63,8 @@ class CSV extends AbstractGateway {
 	    	$i++;
 	    	$selector =  $this->selector;
 			list ($civico, $odonimo, $idComune, $latitude, $longitude ) = 	$selector($data);
+			$latFloat = $this->float($latitude);
+			$longFloat = $this->float($longitude);
 			
 			// $idComune can be the istat code or a name, in this case must be normalized
 			$encodedIdComune = GwHelpers::encodeForUri($idComune);
@@ -63,8 +75,8 @@ class CSV extends AbstractGateway {
 	gco:haComune <urn:geocodit:comune:$encodedIdComune>  ;
 	$civicoProp
 	gco:haToponimoStradale \"$odonimo\" ;
-	geo:lat $latitude ;
-	geo:long $longitude 
+	geo:lat $latFloat ;
+	geo:long $longFloat 
 .");
 	    }
 	    fclose($handle);
