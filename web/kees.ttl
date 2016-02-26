@@ -3,19 +3,28 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix void: <http://rdfs.org/ns/void#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix ter: <http://datiopen.istat.it/odi/ontologia/territorio/> .
 
 [] kees:includes <http://linkeddata.center/project/kees/1.1.19/v1/introspection.ttl> .
 
-#######################################################
+##############################################################################
 # WHAT IS THIS?
-#######################################################
+# 	This is a file that describes a knowledge base in 
+# 	terms of ingestion policies i.e. the procedures
+#	 needed to populate the knowledge base wit data.
+# 	After executing ingestion policies the knowledge base
+# 	will all data related to a knowlegde domain:
+# 	Geocoding for Italian territory in this case.
+##############################################################################
 <> 	dct:title 
 		"Geocodit Knowlege Exchange Engine Schema (KEES) description file"@en ;
 	dct:description 
-		"A sharable description of a knowledge base that contains Italian territory geo data."@en ;
+		"A sharable description of a knowledge base for geocoding in Italy."@en ;
+	dct:creator
+		<http://LinkedData.Center> ; dct:dateCopyrighted "2016-02-26"^^xsd:date;
 	dct:isVersionOf <http://linkeddata.center/project/geocodit/1.0.0/pub/kees.ttl> ;
-	dct:conformsTo <http://linkeddata.center/kees> ;
+	dct:conformsTo <http://geocodit.linkeddata.center/profile.html> ;
 	dct:subject <http://dbpedia.org/resource/Geocoding>, <http://dbpedia.org/resource/Italy> ;
 	dct:license <http://creativecommons.org/licenses/by-nc-sa/4.0/>;
 	foaf:primaryTopic [ a kees:KnowledgeBase;
@@ -32,15 +41,15 @@
 	]
 .
 
-# here some syntactic sugar
+# here some syntactic sugar:
 _:yearly kees:hasFrequencyPeriod 31536000 .
 _:montly kees:hasFrequencyPeriod 2592000 .
 _:tryFourTimes kees:hasResilience 4 .
 
 
-#######################################################
-# Luoghi by linkedgeodata
-#######################################################
+##############################################################################
+# linkedgeodata amenities (not alwais in OSM)
+##############################################################################
 
 _:linkedgeodataAmenities a kees:SparqlIngestion ;
 	kees:queryName <urn:linkedgeodata:civic> ;
@@ -73,19 +82,28 @@ _:linkedgeodataAmenities a kees:SparqlIngestion ;
 	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:montly ;
 .
 
-#######################################################
+##############################################################################
 # gateway
-#######################################################
+##############################################################################
 
-_:farmacie  kees:source <http://geocodit.linkeddata.center/gw/farmacie> ; kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly .
-_:parafarmacie  kees:source <http://geocodit.linkeddata.center/gw/parafarmacie> ; kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly .
+_:farmacie  
+	rdfs:comment "Elenco delle farmacie in Italia da Ministero della salute (via GW)"@it ;
+	kees:source <http://geocodit.linkeddata.center/gw/farmacie> ;
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly 
+.
 
-#######################################################
-# Use Wikidata to enrich istat comune info with  zip codes
-#######################################################
+_:parafarmacie 
+	rdfs:comment "Elenco delle farmacie in Italia da Ministero della salute (via GW)"@it ; 
+	kees:source <http://geocodit.linkeddata.center/gw/parafarmacie> ; 
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly 
+.
+
+##############################################################################
+# Using Wikidata to enrich istat data
+##############################################################################
 
 _:wikidataZips  a kees:SparqlIngestion ;
-	rdfs:comment "Get city zipcodes from wikidata" ;
+	rdfs:comment "Get city zipcodes from wikidata"@en ;
 	kees:queryName <urn:wikidata:cap> ;
 	kees:sparqlEndpoint <http://query.wikidata.org/sparql> ;
 	kees:queryMethod "GET" ;
@@ -111,7 +129,7 @@ _:wikidataZips  a kees:SparqlIngestion ;
 #######################################################
 
 _:istatDug
-	rdfs:comment "Elenco Denominazione Urbanistica Generica validatao da ISTAT (via GW)" ;
+	rdfs:comment "Elenco Denominazione Urbanistica Generica validatao da ISTAT (via GW)"@it ;
 	kees:source <http://geocodit.linkeddata.center/gw/dug> ;
 	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly 
 .
@@ -204,9 +222,9 @@ _:istatRegioni  a kees:SparqlIngestion ;
 
 
 #######################################################
-# General Axioms
+# Reasoner axioms
 #######################################################
-[]  rdfs:comment "Generate a search key for geocodit geocoder" ;
+[]  rdfs:comment "Generate a search key for geocoder" ;
 	kees:ruleText """
 		PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
 	    PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
@@ -226,7 +244,7 @@ _:istatRegioni  a kees:SparqlIngestion ;
 """ .
 
 ##########################################################
-# Sparql queries
+# Examples of Sparql queries
 ##########################################################
 
 [] a kees:Table ;

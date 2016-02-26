@@ -1,6 +1,6 @@
-# Contributing to geocodit
+# Contributing to GeocodIT
 
-Contributions to geocodingit are always welcome. You make our lives easier by
+Contributions to GeocodIT are always welcome. You make our lives easier by
 sending us your contributions through pull requests.
 
 Pull requests for bug fixes must be based on the current stable branch whereas
@@ -28,12 +28,12 @@ Local workstation installation process:
 You are free to optionally install your preferred language ide (aptana, eclipse, other)
 
 
-## Using geocodit from a git checkout
+## Using GeocodIT from a git checkout
 
 The following commands can be used to perform the initial checkout from a bash shell:
 
 ```shell
-git clone https://ecow@bitbucket.org/linkeddatacenter/geocodit.git
+git clone https://github.com/linkeddatacenter/geocodit.git
 cd geocodit
 ```
 
