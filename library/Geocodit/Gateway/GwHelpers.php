@@ -23,5 +23,19 @@ class GwHelpers {
 	public static function encodeForUri($id){
 		return strtoupper( preg_replace('/[^a-zA-Z0-9]/', '', $id));
 	}
+
+	public static  function toFloat($str) {            
+        if(strstr($str, ',')) {
+            // A comma exists, that makes it easy, cos we assume it separates the decimal part.
+            $str = str_replace('.', '', $str);    // Erase thousand seps
+            $str = str_replace(',', '.', $str);    // Convert , to . for floatval command  
+        }
+		return floatval($str);
+    }
+	
+    public static  function quote($str) {            
+		return addslashes ( $str );
+    }
+
 	
 } //END

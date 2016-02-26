@@ -30,14 +30,6 @@ class CSV extends AbstractGateway {
 		return $this ;
 	}
 	
-	protected function float($str) {            
-        if(strstr($str, ',')) {
-            // A comma exists, that makes it easy, cos we assume it separates the decimal part.
-            $str = str_replace('.', '', $str);    // Erase thousand seps
-            $str = str_replace(',', '.', $str);    // Convert , to . for floatval command  
-        }
-		return floatval($str);
-    }
 
 
 	public function getStream(){
@@ -63,22 +55,20 @@ class CSV extends AbstractGateway {
 	    	$i++;
 	    	$selector =  $this->selector;
 			list ($civico, $odonimo, $idComune, $latitude, $longitude ) = 	$selector($data);
-			$latFloat = $this->float($latitude);
-			$longFloat = $this->float($longitude);
-			
+
 			// $idComune can be the istat code or a name, in this case must be normalized
 			$encodedIdComune = GwHelpers::encodeForUri($idComune);
-			$civicoProp = $civico?"gco:haNumeroCivico \"$civico\" ;":'';
+			$civicoProp = $civico?'gco:haNumeroCivico "'.GwHelpers::quote($civico).'" ;':'';
 			
 			fwrite( $stream, "
 <$source#$i> a gco:Luogo ;
 	gco:haComune <urn:geocodit:comune:$encodedIdComune>  ;
 	$civicoProp
-	gco:haToponimoStradale \"\"\"$odonimo\"\"\" ;
-	geo:lat $latFloat ;
-	geo:long $longFloat 
+	gco:haToponimoStradale \"".GwHelpers::quote($odonimo)."\" ;
+	geo:lat ".GwHelpers::toFloat($latitude)." ;
+	geo:long ".GwHelpers::toFloat($longitude)." 
 .");
-	    }
+		}
 	    fclose($handle);
 		
 		// rewind and return output stream
