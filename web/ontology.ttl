@@ -12,7 +12,7 @@
                                              
                                              rdfs:label "geocodit ontology"@en ;
                                              
-                                             owl:versionInfo "V 1.0  Release 2016-02-014"@en ;
+                                             owl:versionInfo "V 1.0  Release 2016-02-26"@en ;
                                              
                                              rdfs:comment "An application ontology for geocodit project"@it .
 
@@ -56,13 +56,21 @@ gco:haComune rdf:type owl:FunctionalProperty ,
 
 ###  http://datiopen.istat.it/odi/ontologia/territorio/haCodIstat
 
-ter:haCodIstat rdf:type owl:DatatypeProperty .
+ter:haCodIstat rdf:type owl:DatatypeProperty ;
+               
+               rdfs:label "ha codice ISTAT"@it ;
+               
+               rdfs:comment "Il codice istat è un codice univoco alfanumerico composto da 6 cifre (per i comuni) e 3 cifre per le provincie"@it .
 
 
 
 ###  http://datiopen.istat.it/odi/ontologia/territorio/haNome
 
-ter:haNome rdf:type owl:DatatypeProperty .
+ter:haNome rdf:type owl:DatatypeProperty ;
+           
+           rdfs:label "ha nome"@it ;
+           
+           rdfs:comment "nome ufficiale rispetto alla nomenclatura ISTAT"@it .
 
 
 
@@ -151,14 +159,14 @@ gco:Comune rdf:type owl:Class ;
                              owl:someValuesFrom xsd:string
                            ] ,
                            [ rdf:type owl:Restriction ;
-                             owl:onProperty ter:provincia_di_COM ;
-                             owl:onClass ter:PROV ;
-                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
-                           ] ,
-                           [ rdf:type owl:Restriction ;
                              owl:onProperty ter:haNome ;
                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                              owl:onDataRange xsd:string
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty ter:provincia_di_COM ;
+                             owl:onClass ter:PROV ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
                            ] ,
                            [ rdf:type owl:Restriction ;
                              owl:onProperty ter:haCodIstat ;
@@ -177,6 +185,11 @@ gco:Luogo rdf:type owl:Class ;
           rdfs:label "Luogo"@it ;
           
           rdfs:subClassOf [ rdf:type owl:Restriction ;
+                            owl:onProperty gco:haComune ;
+                            owl:onClass gco:Comune ;
+                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
+                          ] ,
+                          [ rdf:type owl:Restriction ;
                             owl:onProperty gco:haToponimoStradale ;
                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                             owl:onDataRange xsd:string
@@ -185,11 +198,6 @@ gco:Luogo rdf:type owl:Class ;
                             owl:onProperty gco:haNumeroCivico ;
                             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                             owl:onDataRange xsd:string
-                          ] ,
-                          [ rdf:type owl:Restriction ;
-                            owl:onProperty gco:haComune ;
-                            owl:onClass gco:Comune ;
-                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
                           ] ;
           
           rdfs:comment "Un luogo dotato di latitudine e longitudine collocato in un comune"@it .
