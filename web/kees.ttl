@@ -66,7 +66,7 @@ _:linkedgeodataAmenities a kees:SparqlIngestion ;
 			    geo:long ?long .
 		    BIND( strlang(?city, 'it') AS ?italianCity )
 		    BIND( strlang(?street, 'it') AS ?italianStreet )
-		    BIND( URI( CONCAT( 'urn:geocodit:comune:', UCASE(REPLACE(?nomeComune),"[^a-zA-Z0-9]",""))) AS ?uriByName )
+		    BIND( URI(CONCAT('urn:geocodit:comune:',UCASE(REPLACE(?nomeComune,"[^a-zA-Z0-9]","")))) AS ?uriByName )
 		} ORDER BY ?s
 	""" ;
 	kees:pageSize 1500; kees:toPage 100 ; 
@@ -156,7 +156,7 @@ _:istatComuni  a kees:SparqlIngestion ;
 	            ter:provincia_di_COM ?provincia ;
 	            ter:haNome ?nomeComune ;
 	            ter:haCodIstat ?codIstatComune .
-	        BIND ( URI( CONCAT( 'urn:geocodit:comune:', UCASE(REPLACE(?nomeComune),"[^a-zA-Z0-9]",""))) AS ?uriByName )
+	        BIND ( URI(CONCAT( 'urn:geocodit:comune:',UCASE(REPLACE(?nomeComune,"[^a-zA-Z0-9]","")))) AS ?uriByName )
 	        BIND ( URI( CONCAT( 'urn:geocodit:comune:', ?codIstatComune )) AS ?uriByIstat )
 	     } ORDER BY ?uriIstat
 	""" ;
