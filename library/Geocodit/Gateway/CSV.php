@@ -74,7 +74,7 @@ class CSV extends AbstractGateway {
 <$source#$i> a gco:Luogo ;
 	gco:haComune <urn:geocodit:comune:$encodedIdComune>  ;
 	$civicoProp
-	gco:haToponimoStradale \"$odonimo\" ;
+	gco:haToponimoStradale \"\"\"$odonimo\"\"\" ;
 	geo:lat $latFloat ;
 	geo:long $longFloat 
 .");
