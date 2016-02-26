@@ -90,15 +90,28 @@ provide your LinkedData.Center credential as basic http authentication. Data int
 The geocodit API enpoint will be available at <your server ip or FQDN>/api (e.g. http://geocodit.linkeddata.center/api)
 
 **Usage:**
-- geocode?q=*address*[& profile=cost|quality] : returns address geolocation using a gecoding profile optimization(default: cost).
+- geocode?q=*address*[& trust=*trust_profile*] : returns address geolocation using a gecoding profile optimization(default: cost).
 - benchmark?q=*address* : compare the results of all supported geocoders.
+
+Available trust profiles:
+- **geocodit** (default): search kb, if address not found fall backs on open street map enriching results with istat codes
+- **ms**: try bing maps first, if no results try search KB
+- **google**: try google  maps first, if no results try search KB
+- **osm**: try open street map first, if no results try search KB
+- **all**: try google maps first, then bing maps, then open street map, then if still no results try search KB
+
+**Note**:
+- google and microsoft have license restrictions and costs associated to the services. To use them you must setup proper credentiani in geocodit.ini config file
+- open street map requires at least a penality for one second between subsequent calls. This penality is automatically added to avoid to be banned
+
+
 
 ### Using geocodit gateways
 
 The geocodit gateways will be available at <your server ip or FQDN>/gw/{*gateway name*} (e.g. http://geocodit.linkeddata.center/gw/).
 The list of available gateways is available as Void catalog if you do not specify any specific gateway.
 
-All gateways stream a three star resource as a RDF turtle resource. Data are elaborated in real time and cached for one day.
+All gateways stream a three star resource as a RDF turtle resource. Data are transfrmed in real time [ TBD: and cached for one day].
 
 
 ## License and Authors

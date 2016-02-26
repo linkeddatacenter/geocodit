@@ -15,17 +15,19 @@
 
 namespace Geocodit\Gateway;
 
-class MinisteroSaluteCSV extends AbstractGateway {
+class CSV extends AbstractGateway {
 	
-	protected $reader = null; 
+	protected $selector = null; 
 	
-	protected function parseAddress($address) {
-		
-		return array('street', 'number');
-	}
-	
-	public function setReader( $function ){
-		$this->reader = $function;
+	/**
+	 * $function is a closure function that get a data array (a row readed by fgetcsv) and returns an array of 5 values:
+	 * ($civico, $odonimo, $idComune, $latitude, $longitude ). 
+	 * 		$civico can be null
+	 * 		$idComune is the comune name or istat code
+	 */
+	public function setFieldsSelector( $function ){
+		$this->selector = $function;
+		return $this ;
 	}
 
 	public function getStream(){
@@ -37,10 +39,9 @@ class MinisteroSaluteCSV extends AbstractGateway {
 		
 		//initialize output stream
 		$stream = tmpfile();
-		fwrite($stream, "# Dati provenienti dal ministero della salute
+		fwrite($stream, "# Source: $source
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
 @prefix gco: <http://geocodit.linkeddata.center/ontology#> .
-@prefix ter: <http://datiopen.istat.it/odi/ontologia/territorio/> .
 ");		
 				
 	    // get the first row, which contains the column-titles
@@ -50,19 +51,21 @@ class MinisteroSaluteCSV extends AbstractGateway {
 	    $i=0;
 	    while(($data = fgetcsv($handle, 2000 , ';')) !== false) {
 	    	$i++;
-	    	$reader =  $this->reader;
-			list ($address, $codComune, $latitude, $longitude ) = 	$reader($data);
-			list($street, $civicNumber ) = $this->parseAddress($address);
+	    	$selector =  $this->selector;
+			list ($civico, $odonimo, $idComune, $latitude, $longitude ) = 	$selector($data);
+			
+			// $idComune can be the istat code or a name, in this case must be normalized
+			$encodedIdComune = GwHelpers::encodeForUri($idComune);
+			$civicoProp = $civico?"gco:haNumeroCivico \"$civico\" ;":'';
 			
 			fwrite( $stream, "
 <$source#$i> a gco:Luogo ;
-	gco:haComune <urn:geocodit:comune:istat:$codComune>  ;
-	gco:haNumeroCivico \"$civicNumber\" ;
-    gco:haToponimoStradale \"$street\" ;
-    geo:lat $latitude ;
-    geo:long $longitude 
+	gco:haComune <urn:geocodit:comune:$encodedIdComune>  ;
+	$civicoProp
+	gco:haToponimoStradale \"$odonimo\" ;
+	geo:lat $latitude ;
+	geo:long $longitude 
 .");
-
 	    }
 	    fclose($handle);
 		

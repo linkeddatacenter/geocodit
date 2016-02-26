@@ -17,9 +17,11 @@ use BOTK\Context\Context;				// get config vars and other inputs
 
 class GeocoderController extends AbstractController {
 	protected $PROFILES = array(
-		'cost' 		=> array('openstreetmap','google_maps','bing_maps'),
-		'quality' 	=> array('bing_maps','google_maps','openstreetmap'),
-		'open'		=> array('openstreetmap'),
+		'geocodit'	=> array('geocodit','openstreetmap'),
+		'ms'		=> array('bing_maps', 'geocodit'),
+		'google'	=> array('google_maps','geocodit'),
+		'osm'		=> array('openstreetmap', 'geocodit'),
+		'all'		=> array('google_maps', 'bing_maps', 'openstreetmap', 'geocodit'),
 	);
 
 	public  function VALID_PENALITY() {
@@ -44,7 +46,7 @@ class GeocoderController extends AbstractController {
 		$context = Context::factory();
 		// get default parameters from config
 		$config	 = $context->ns('geocodit');
-		$defaultProfile 	= $config->getValue( 'profile', 		'cost', 								$this->VALID_PROFILE());
+		$defaultProfile 	= $config->getValue( 'trust', 			'geocodit', 							$this->VALID_PROFILE());
 		$defaultAddress		= $config->getValue( 'defaultAddress', 	'Via Montefiori 13, 23825 Esino Lario', FILTER_SANITIZE_STRING);
 		$penality			= $config->getValue( 'penality', 		2,  									$this->VALID_PENALITY());
 		
@@ -66,38 +68,16 @@ class GeocoderController extends AbstractController {
 		$geocoder->registerProvider($chain);
 		
 		// Call toponym resolution providers
-		try {
-			$toponymResolution = $geocoder
-				->limit(1)
-				->geocode($query)
-				->first();
-			$formatter = new \Geocoder\Formatter\StringFormatter();			
-			$canonicAddress = $formatter->format($toponymResolution, "%S %n, %z %L");	
-		} catch (\Exception $e) {
-			$toponymResolution = null;
-			$canonicAddress = $query;
-		}
+		$address = $geocoder
+			->limit(1)
+			->geocode($query)
+			->first();
 
 		// apply penality (just to avoid abuse, set to 0 in config fil to disable)
 		if($penality>0) {usleep($penality*1000000);}
-
-		// call geocodit specialized provider. This looks at linked data to guess a better address
-		$geocodit = $this->geocoderFactory($adapter, 'geocodit');
-		try {
-			$geocoditAddress = $geocodit
-				->limit(1)
-				->geocode($canonicAddress)
-				->first();	
-		} catch (\Exception $e) {
-			$geocoditAddress =$toponymResolution ; //fallback to toponymResolution
-		}		
-		
-		if (is_null($geocoditAddress)) {
-			throw new \Exception("Not found", 404);
-		}
 		
 		
-		return  $this->stateTransfer($geocoditAddress);
+		return  $this->stateTransfer($address);
     }				
 		
 } // END

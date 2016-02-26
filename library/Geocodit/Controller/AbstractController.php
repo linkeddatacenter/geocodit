@@ -34,11 +34,11 @@ abstract class AbstractController extends Controller {
 		
 		switch ($providerName) {
 			case 'geocodit':
-				$minQuality		= $input->getValue( 'minQuality', V::NULL_AS_DEFAULT);
+				//$minQuality		= $input->getValue( 'minQuality', V::NULL_AS_DEFAULT);
 				$endpoint		= $input->getValue( 'endpoint', 'https://hub1.linkeddata.center/demo');
 				$kbid			= $config->getValue( 'kbid','demo');
 				$secretKey		= $config->getValue( 'secretKey', 'demo');
-				$geocoder = new \Geocodit\Provider\Geocodit($adapter, $endpoint,$kbid, $secretKey, $minQuality );
+				$geocoder = new \Geocodit\Provider\Geocodit($adapter, $kbid, $secretKey, $endpoint );
 				break;
 			case 'google_maps':
 				$googleApiKey	= $config->getValue( 'googleApiKey',	V::NULL_AS_DEFAULT);
