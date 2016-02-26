@@ -17,7 +17,7 @@ use BOTK\Context\Context;				// get config vars and other inputs
 
 class GeocoderController extends AbstractController {
 	protected $PROFILES = array(
-		'geocodit'	=> array('geocodit','openstreetmap'),
+		'geocodit'	=> array('geocodit','geocoditOSM'),
 		'ms'		=> array('bing_maps', 'geocodit'),
 		'google'	=> array('google_maps','geocodit'),
 		'osm'		=> array('openstreetmap', 'geocodit'),

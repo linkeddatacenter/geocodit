@@ -79,17 +79,10 @@ class Geocodit extends \Geocoder\Provider\AbstractHttpProvider implements \Geoco
 					 ?uriComune owl:sameAs [ 
 					 	a gco:Comune ;  
 					 	ter:haNome ?comune ;
-					 	ter:haCodIstat ?IstatComune ;
+					 	ter:haCodIstat ?codIstatComune ;
 					 	ter:provincia_di_COM ?uriProvincia
 					 ] 
 				} 
-				GRAPH <urn:istat:comuni> {
-					 ?uriComune owl:sameAs [ 
-					 	a gco:Comune ;  
-					 	ter:haNome ?comune ;
-					 	ter:haCodIstat ?codIstatComune ;
-					 ] 
-				}
 		        GRAPH <urn:istat:province> { 
 		        	?provinciaUrl
 		            	ter:haNome ?provincia;  
@@ -120,17 +113,17 @@ class Geocodit extends \Geocoder\Provider\AbstractHttpProvider implements \Geoco
             
             $resultSet['adminLevels']= array(
             	array(
-                    'name' => $row->comune->getValue(),
-                    'code' => $row->codIstatComune->getValue(),
+                    'name' => $row->regione->getValue(),
+                    'code' => 'NA',
                     'level' => 1
             	),
             	array(
                     'name' => $row->provincia->getValue(),
-                    'code' => $row->codIstatComune->getValue(),
+                    'code' => $row->codIstatRegione->getValue(),
                     'level' => 2
             	),
             	array(
-                    'name' => $row->regione->getValue(),
+                    'name' => $row->comune->getValue(),
                     'code' => $row->codIstatComune->getValue(),
                     'level' => 3
             	),

@@ -34,7 +34,7 @@ class GwHelpers {
     }
 	
     public static  function quote($str) {            
-		return addslashes ( $str );
+		return addslashes ( utf8_encode(str));
     }
 
 	

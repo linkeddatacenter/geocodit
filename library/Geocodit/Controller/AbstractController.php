@@ -24,7 +24,7 @@ use BOTK\Context\ContextNameSpace as V;
  * A RESTful controller injection to make controlle testable
  */
 abstract class AbstractController extends Controller {
-	const SUPPORTED_PROVIDERS = 'geocodit|google_maps|openstreetmap|bing_maps';
+	const SUPPORTED_PROVIDERS = 'geocodit|geocoditOSM|google_maps|openstreetmap|bing_maps';
 
 	public function geocoderFactory($adapter, $providerName){
 		$context = Context::factory();
@@ -33,8 +33,13 @@ abstract class AbstractController extends Controller {
 		$locale = 'it_IT';
 		
 		switch ($providerName) {
+			case 'geocoditOSM':
+				$endpoint		= $input->getValue( 'endpoint', 'https://hub1.linkeddata.center/demo');
+				$kbid			= $config->getValue( 'kbid','demo');
+				$secretKey		= $config->getValue( 'secretKey', 'demo');
+				$geocoder = new \Geocodit\Provider\GeocoditOSM($adapter, $kbid, $secretKey, $endpoint );
+				break;
 			case 'geocodit':
-				//$minQuality		= $input->getValue( 'minQuality', V::NULL_AS_DEFAULT);
 				$endpoint		= $input->getValue( 'endpoint', 'https://hub1.linkeddata.center/demo');
 				$kbid			= $config->getValue( 'kbid','demo');
 				$secretKey		= $config->getValue( 'secretKey', 'demo');
