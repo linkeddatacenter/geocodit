@@ -17,11 +17,18 @@ use BOTK\Context\Context;				// get config vars and other inputs
 
 class GeocoderController extends AbstractController {
 	protected $PROFILES = array(
-		'geocodit'	=> array('geocodit','geocoditOSM'),
+		'opendata'	=> array('geocodit','geocoditOSM'),
 		'ms'		=> array('bing_maps', 'geocodit'),
 		'google'	=> array('google_maps','geocodit'),
 		'osm'		=> array('openstreetmap', 'geocodit'),
-		'all'		=> array('google_maps', 'bing_maps', 'openstreetmap', 'geocodit'),
+		'tryall'	=> array( 'bing_maps', 'google_maps', 'openstreetmap', 'geocodit'),
+		
+		'geocodit'		=> array('geocodit'),
+		'geocoditOSM'	=> array('geocoditOSM'),
+		'bing_maps'		=> array('bing_maps'),
+		'google_maps'	=> array('google_maps'),
+		'openstreetmap'	=> array('openstreetmap'),
+		
 	);
 
 	public  function VALID_PENALITY() {
@@ -53,7 +60,7 @@ class GeocoderController extends AbstractController {
 		// get input patrameters from URL quesry string
 		$input = $context->ns(INPUT_GET);
 		$query				= $input->getValue( 'q', 				$defaultAddress, 						FILTER_SANITIZE_STRING);
-		$profile			= $input->getValue( 'profile', 			$defaultProfile, 						self::VALID_PROFILE());
+		$profile			= $input->getValue( 'trust', 			$defaultProfile, 						self::VALID_PROFILE());
 
 		$geocoder = new \Geocoder\ProviderAggregator();
 		$adapter  = new \Ivory\HttpAdapter\CurlHttpAdapter();

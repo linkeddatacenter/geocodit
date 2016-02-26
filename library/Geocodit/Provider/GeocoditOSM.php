@@ -72,7 +72,7 @@ class GeocoditOSM extends \Geocoder\Provider\Nominatim
 				PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
 				PREFIX owl: <http://www.w3.org/2002/07/owl#>
 				PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
-				SELECT ?civico ?odonimo ?comune ?codIstatComune ?provincia ?codIstatProv ?regione ?lat ?long 
+				SELECT ?comune ?codIstatComune ?provincia ?codIstatProvincia ?regione ?codIstatRegione ?lat ?long 
 				WHERE {
 					GRAPH <urn:istat:comuni> {
 						 <$uriComune> owl:sameAs [ 
@@ -83,30 +83,34 @@ class GeocoditOSM extends \Geocoder\Provider\Nominatim
 						 ] 
 					} 
 			        GRAPH <urn:istat:province> { 
-			        	?provinciaUrl
+			        	?uriProvincia
 			            	ter:haNome ?provincia;  
-							ter:haCodIstat ?codIstatProv ;
-			            	ter:regione_di_PROV ?regioneUrl
+							ter:haCodIstat ?codIstatProvincia ;
+			            	ter:regione_di_PROV ?uriRegione
 					}
 					GRAPH <urn:istat:regioni> {
-			        	?regioneUrl ter:haNome ?regione 
+			        	?uriRegione ter:haNome ?regione ;
+			        	ter:haCodIstat ?codIstatRegione 
 			        }
-				} LIMIT 1
-			";
+				} 
+			";	
+
 			$solutions = $this->sparql->query($query);
 			
-			if( isset($solutions[0])){
+			if( $solutions->numRows()){
+					               
 				$row = $solutions[0];
 				// Ovveride admin list
 	            $resultSet['adminLevels'] =	array(
+
 	            	array(
 	                    'name' => $row->regione->getValue(),
-	                    'code' => 'NA',
+	                    'code' => $row->codIstatRegione->getValue(),
 	                    'level' => 1
 	            	),
 	            	array(
 	                    'name' => $row->provincia->getValue(),
-	                    'code' => $row->codIstatComune->getValue(),
+	                    'code' => $row->codIstatProvincia->getValue(),
 	                    'level' => 2
 	            	),
 	            	array(
@@ -118,7 +122,7 @@ class GeocoditOSM extends \Geocoder\Provider\Nominatim
             }	
 		}
 		
-		die( print_r($data,true));
+		
 
         return $this->factory->createFromArray($data);
     }

@@ -47,7 +47,7 @@ class Geocodit extends \Geocoder\Provider\AbstractHttpProvider implements \Geoco
 			PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
 			PREFIX owl: <http://www.w3.org/2002/07/owl#>
 			PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
-			SELECT ?civico ?odonimo ?comune ?codIstatComune ?provincia ?codIstatProv ?regione ?lat ?long 
+			SELECT ?civico ?odonimo ?comune ?codIstatComune ?provincia ?codIstatProvincia ?regione ?codIstatRegione ?lat ?long 
 			WHERE {
 		";
 		$query .= $reverse?:"
@@ -70,8 +70,8 @@ class Geocodit extends \Geocoder\Provider\AbstractHttpProvider implements \Geoco
 						gco:haComune ?uriComune  ;		    
 					    gco:haToponimoStradale ?odonimo ;
 					    geo:lat ?lat ;
-					    geo:long ?lat .
-					OPTIONAL { <$searchUri> gco:haNumeroCivico ?housenumber }
+					    geo:long ?long .
+					OPTIONAL { ?luogo gco:haNumeroCivico ?housenumber }
 				}
 		";
 		$query .= "
@@ -84,17 +84,18 @@ class Geocodit extends \Geocoder\Provider\AbstractHttpProvider implements \Geoco
 					 ] 
 				} 
 		        GRAPH <urn:istat:province> { 
-		        	?provinciaUrl
+		        	?uriProvincia
 		            	ter:haNome ?provincia;  
-						ter:haCodIstat ?codIstatProv ;
-		            	ter:regione_di_PROV ?regioneUrl
+						ter:haCodIstat ?codIstatProvincia ;
+		            	ter:regione_di_PROV ?uriRegione
 				}
 				GRAPH <urn:istat:regioni> {
-		        	?regioneUrl ter:haNome ?regione 
+		        	?uriRegione ter:haNome ?regione ;
+			        ter:haCodIstat ?codIstatRegione 
 		        }
 			} LIMIT 10
 		";
-		
+
 		return $query;
 	}
 	
@@ -106,6 +107,7 @@ class Geocodit extends \Geocoder\Provider\AbstractHttpProvider implements \Geoco
 		foreach ($solutions as $row) {
 			$resultSet = $this->getDefaults();
 			
+			$resultSet['locality'] = $row->comune->getValue();
 			$resultSet['streetName'] = $row->odonimo->getValue();
 			$resultSet['latitude']  = $row->lat->getValue();
             $resultSet['longitude'] = $row->long->getValue();
@@ -114,12 +116,12 @@ class Geocodit extends \Geocoder\Provider\AbstractHttpProvider implements \Geoco
             $resultSet['adminLevels']= array(
             	array(
                     'name' => $row->regione->getValue(),
-                    'code' => 'NA',
+                    'code' => $row->codIstatRegione->getValue(),
                     'level' => 1
             	),
             	array(
                     'name' => $row->provincia->getValue(),
-                    'code' => $row->codIstatRegione->getValue(),
+                    'code' => $row->codIstatProvincia->getValue(),
                     'level' => 2
             	),
             	array(
@@ -144,6 +146,7 @@ class Geocodit extends \Geocoder\Provider\AbstractHttpProvider implements \Geoco
     public function geocode($query)
     {
     	$searchUri = 'urn:luogo:'.GwHelpers::encodeForUri($query);
+
 		$solutions = $this->sparql->query($this->makeSparqlQuery($searchUri));
 		
 		return $this->returnResults($this-> buildResults($solutions));

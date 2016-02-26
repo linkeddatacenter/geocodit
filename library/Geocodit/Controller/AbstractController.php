@@ -34,13 +34,13 @@ abstract class AbstractController extends Controller {
 		
 		switch ($providerName) {
 			case 'geocoditOSM':
-				$endpoint		= $input->getValue( 'endpoint', 'https://hub1.linkeddata.center/demo');
+				$endpoint		= $config->getValue( 'endpoint', 'https://hub1.linkeddata.center/demo');
 				$kbid			= $config->getValue( 'kbid','demo');
 				$secretKey		= $config->getValue( 'secretKey', 'demo');
 				$geocoder = new \Geocodit\Provider\GeocoditOSM($adapter, $kbid, $secretKey, $endpoint );
 				break;
 			case 'geocodit':
-				$endpoint		= $input->getValue( 'endpoint', 'https://hub1.linkeddata.center/demo');
+				$endpoint		= $config->getValue( 'endpoint', 'https://hub1.linkeddata.center/demo');
 				$kbid			= $config->getValue( 'kbid','demo');
 				$secretKey		= $config->getValue( 'secretKey', 'demo');
 				$geocoder = new \Geocodit\Provider\Geocodit($adapter, $kbid, $secretKey, $endpoint );

@@ -94,16 +94,18 @@ The geocodit API enpoint will be available at <your server ip or FQDN>/api (e.g.
 - benchmark?q=*address* : compare the results of all supported geocoders.
 
 Available trust profiles:
-- **geocodit** (default): search kb, if address not found fall backs on open street map enriching results with istat codes
+- **opendata** (default): search kb, if address not found fall backs on open street map enriching results with istat codes
 - **ms**: try bing maps first, if no results try search KB
 - **google**: try google  maps first, if no results try search KB
 - **osm**: try open street map first, if no results try search KB
 - **all**: try google maps first, then bing maps, then open street map, then if still no results try search KB
 
-**Note**:
-- google and microsoft have license restrictions and costs associated to the services. To use them you must setup proper credentiani in geocodit.ini config file
-- open street map requires at least a penality for one second between subsequent calls. This penality is automatically added to avoid to be banned
-
+Beside this you can trust on result a provider alone:
+- **geocodit** : just uste kb data (free)
+- **geocoditOSM** : openstreet map enriched with KB data (free, no more than a query per second)
+- **google_map** : google maps (require key, license rescstrition on data usage)
+- **bin_map** : google maps (require key, license rescstrition on data usage)
+- **openstreetmap** : open street map (free, no more than a query per second)
 
 
 ### Using geocodit gateways

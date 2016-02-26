@@ -38,7 +38,7 @@ class GeocoderBenchmarkRenderer extends Standard {
 			$encodedQuery=urlencode($benchmark->query); 
 			$html .= "
 				<tr>
-					<th><a href='geocode?providers=$geocoder&q=$encodedQuery'>$geocoder</a></th>
+					<th><a href='geocode?trust=$geocoder&q=$encodedQuery'>$geocoder</a></th>
 			";
 			if( is_string($data)){
 				$html .= "
