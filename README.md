@@ -14,6 +14,7 @@ GeocodIT was thinked for the italian territory but can be easily adaped to other
 
 For more about GeocodIT project see [this article](http://linkeddata.center/help/business/cases/geocodit-v1) 
 
+## Demo
 A running demo is available at http://geocodit.linkeddata.center/ . Please use this server just as a demo and learning resource. 
 To avoid abuses a performance penality of 2sec. is added to each geocoder API call.
 
