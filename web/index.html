@@ -9,44 +9,58 @@
 		        white-space: pre;
 		    }
 		</style>
-        <title>Geocodit demo</title>
+        <title>GeocodIT demo</title>
     </head>
     <body>
       <header>
-		<h1>Geocodit demo</h1>
+		<h1>GeocodIT demo</h1>
 		<p>A system that manages italian geocoding knowledge base according W3C semantic web best practices and standards. 
 			Powered by <a href="http://LinkedData.Center/">LinkedData.Center</a></p>
 
 	    <nav>
 	       <div >
 	        <dl>
-				<dt>Help:</dt>
+				<dt>Help resources:</dt>
 				<dd><a href ="https://github.com/linkeddatacenter/geocodit" target="_blank" >View this project on GitHub</a></dd>
 				<dd><a href ="http://linkeddata.center/help/business/cases/geocodit-v1" target="_blank">The Geocodit case study article </a></dd>
-				<dd><a href ="profile.html" target="_blank" >Language Profile</a></dd>
-				<dd><a href ="ontology/" target="_blank" >Geocodit ontology</a> [RDF <a href="ontology.ttl">source</a>]</dd>				
+				<dd><a href ="profile.html" target="_blank" >Language Profile</a></dd>		
 				<dd><a href='http://linkeddata.center/help/devop/examples/ldc-at-work-in-ten-minutes-part-4' target="_blank" >Using LinkedData.Center ingestion API</a></dd>
 			</dl>
 	       </div>
 	    </nav>
 	  </header>
 	  <div>
-	  	<h3>APIs:</h3>
-	  	  <p><b>WARNING</b>: to avoid abuses, performance penality of <b>2 seconds</b> could be added to each API call.</p>
-	      <ul>
-	      		<li><b>geocode?q=<i>address</i>[&amp; profile=<i>cost|quality</i>]</b> : returns address geolocation using a gecoding profile optimization(default: cost). 
+	  	<h3>RESTfull APIs:</h3>
+	  	  <table width="100%"  style="background-color: yellow; border: 2px solid gray;"  ><tr><th style="text-align: center;  padding: 15px;">
+	  	  	<p>WARNING: APIs  must be used only to support GeocodIT learning. To avoid abuses, a performance penality of <b>2 seconds</b> is added to each call.</p>
+	  	  	<p>To use in prouction enviroment just <a href ="https://github.com/linkeddatacenter/geocodit" target="_blank" >clone geocodit project</a>
+	  	  		in  your (local |phisical |cloud)server </p>
+	  	  </th></tr></table>
+	  	  <div>
+	  	  	<p>Try it yourself:</p>
 			      <form  action="api/geocode" method="get">
-			      	Try it Yourself:
-					  <input size="40" type="search" name="q" value="Via Montefiori 13, 23825 Esino Lario">  <input type="submit" value="geocode">
-			      </form>	      			
-	      		</li>
-	      		<li><b>benchmark?q=<i>address</i></b> : compare the results of all supported geocoders. 
-			      <form  action="api/benchmark" method="get">
-			      	Try it Yourself:
-					<input size="40" type="search" name="q" value="Via Montefiori 13, 23825 Esino Lario">  <input type="submit" value="benchmark">
+	      			api/geocode?q=<input size="40" type="search" name="q" value="Via Montefiori 13, Esino Lario">
+	      			[&amp; trust=<select name="trust">
+						<option>opendata</option>
+						<option>ms</option>
+						<option>google</option>
+						<option>osm</option>
+						<option>all</option>
+						<option>geocodit</option>
+						<option>geocoditOSM</option>
+						<option>google_map</option>
+						<option>bing_map</option>
+						<option>openstreetmap</option>
+					</select>]    	
+					    <input type="submit" value="Try geocoder">
+			      </form>
+			      <form  action="api/benchmark" method="get">	      			
+	      			api/benchmark?q=<input size="40" type="search" name="q" value="Via Montefiori 13, Esino Lario"> 
+					  <input type="submit" value="Try benchmark">
 			      </form>		      			
 	      		</li>
-	      </ul>
+	      <p>NOTE: Address is expected to be expressed in the form "DUG DUF Civic_Number, City" </p>
+	      </div>
 	   </div>
 	   
 	  <div>
@@ -64,15 +78,15 @@
 	  	<h3>Knowledge base :</h3>
 	  	 <p>Enter your LinkedData.Center knowledge base endpoint here:  <input id='endpoint', size="30" value="https://hub1.linkeddata.center/demo"></p>
 	      <ul>
-	      		<li><a onclick="myopen('kees.ttl', true);">Geocodit Knowledge Exchange Engine Schema (RDF turtle graph)</a></li>
+	      		<li>View <a onclick="myopen('kees.ttl', true);">GeocodIT Knowledge Exchange Engine Schema (RDF turtle)</a></li>
 	      </ul>
-	  	<h3>Data views:</h3>
+	      <p>Here are some examples, auth required: ( <a onclick="myopen('/queries');">more here</a>)</p>
 	      <ul>
-	      		<li><a onclick="myopen('/table/gecodit:luoghi');">Numeri civici</a> (auth required)</li>
-	      		<li><a onclick="myopen('/table/istat:comuni');">Comuni</a> (auth required)</li>
-	      		<li><a onclick="myopen('/table/istat:provincie');">Provincie</a> (auth required)</li>
-	      		<li><a onclick="myopen('/table/istat:regioni');">Regioni</a> (auth required)</li>
-	      		<li><a onclick="myopen('/table/istat:dug');">DUG</a> (auth required)</li>
+	      		<li><a onclick="myopen('/table/gecodit:luoghi');">Numeri civici</a> ()</li>
+	      		<li><a onclick="myopen('/table/istat:comuni');">Comuni</a></li>
+	      		<li><a onclick="myopen('/table/istat:provincie');">Provincie</a></li>
+	      		<li><a onclick="myopen('/table/istat:regioni');">Regioni</a></li>
+	      		<li><a onclick="myopen('/table/istat:dug');">DUG</a></li>
 	      </ul>
 	   </div>
 	  <div>

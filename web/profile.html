@@ -6,7 +6,7 @@
     <meta  content="text/html; charset=utf-8"  http-equiv="content-type">
     <title>KEES Language Profile</title>
     <meta  name="keywords"  content="RDFa, Geocodit">
-    <meta  name="description"  content="A Language profile for a Geocodit service.">
+    <meta  name="description"  content="A Language profile for GeocodIT service.">
     <meta  name="author"  content="E.Fagnoni">
     <link  rel="license"  href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
     <link  rel="stylesheet"  type="text/css"  href="http://linkeddata.center/resources/v4/css/doc.css">
@@ -14,19 +14,19 @@
   <body>
     <header>
       <div  class="jumbotron">
-        <h1  id="label">Geocodit Language Profile</h1>
-        <p  id="subject">A language profile for geocodit semantic web
+        <h1  id="label">GeocodIT Language Profile</h1>
+        <p  id="subject">A language profile for GeocodIT semantic web
           application.</p>
       </div>
       <div  class="metadata">
         <dl>
-          <dd><a  href="https://github.com/linkeddatacenter/geocodit"  class="btn">View
+          <dd><a  href="https://github.com/linkeddatacenter/geocodit"  class="btn">View GeocodIT project 
               in GitHub</a></dd>
         </dl>
       </div>
       <section  id="abstract">
         <h2>Abstract</h2>
-        <p>Geocodit is a system that manages a <a  href="https://en.wikipedia.org/wiki/Geocoding">geocoding</a>
+        <p>GeocodIT is a system that manages a <a  href="https://en.wikipedia.org/wiki/Geocoding">geocoding</a>
           using W3C semantic web best practices and standards.</p>
         <p> In order to let computers to work for us, they must understand data.
           Not only grammar and syntax (like in EDI) but the real meaning of
@@ -39,7 +39,7 @@
           set of ontologies that trades some expressive power for the efficiency
           of reasoning. </p>
         <p> This document describes vocabularies and constraints to be used to
-          describe geocodit data. </p>
+          describe GeocodIT data. </p>
       </section>
     </header>
     <h2  id="prefixes">Name spaces</h2>
@@ -60,13 +60,13 @@
     </ul>
     <br>
     This document can be imported as a RDFa 1.1 profile.
-    <h2>Geocodit ontology</h2>
-    <p>The <a  href="ontology.ttl">geocodit ontology</a> refines some terms
+    <h2>GeocodIT ontology</h2>
+    <p>The <a  href="ontology.ttl">GeocodIT ontology</a> refines some terms
       used to annotate linked data.You should understand all ontology terms.</p>
     <p>A special algorithm should be used for each for <span  style="font-weight: bold;">gco:Luogo</span>
-      objecs in order to make them&nbsp; searchable by geocodit geocoder. Here
+      objecs in order to make them  searchable by GeocodIT geocoder. Here
       you find the equivalent SPARQL construct:</p>
-    <pre>CONSTRUCT&nbsp; { ?searchUri owl:sameAs ?luogo }&nbsp; WHERE {<br>  GRAPH ?g { <br>    ?luogo a gco:Luogo ;<br>             gco:haComune ?uriComune  ;<br>             gco:haNumeroCivico ?housenumber ;<br>             gco:haToponimoStradale ?street <br>  }<br>  GRAPH <urn:istat:comuni> { ?uriComune owl:sameAs [ a gco:Comune ;  ter:haNome ?city ] }             <br>  BIND(IRI(CONCAT('urn:uuid:', MD5(UCASE(REPLACE(CONCAT(?street,?housenumber,?city ),"[^\\w]",''))))) AS ?searchUri  )<br>}</urn:istat:comuni></pre>
+    <pre>CONSTRUCT  { ?searchUri owl:sameAs ?luogo }  WHERE {<br>  GRAPH ?g { <br>    ?luogo a gco:Luogo ;<br>             gco:haComune ?uriComune  ;<br>             gco:haNumeroCivico ?housenumber ;<br>             gco:haToponimoStradale ?street <br>  }<br>  GRAPH <urn:istat:comuni> { ?uriComune owl:sameAs [ a gco:Comune ;  ter:haNome ?city ] }             <br>  BIND(IRI(CONCAT('urn:uuid:', MD5(UCASE(REPLACE(CONCAT(?street,?housenumber,?city ),"[^\\w]",''))))) AS ?searchUri  )<br>}</urn:istat:comuni></pre>
 		<p><br></p>
 		
     <h2>Ontologia del territorio</h2>
