@@ -43,7 +43,7 @@ class CSV extends AbstractGateway {
 		$stream = tmpfile();
 		fwrite($stream, "# Source: $source
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
-@prefix gco: <http://geocodit.linkeddata.center/ontology#> .
+@prefix gco: <http://linkeddata.center/ontology/geocodit/v1#> .
 ");		
 				
 	    // get the first row, which contains the column-titles

@@ -69,7 +69,7 @@ class GeocoditOSM extends \Geocoder\Provider\Nominatim
 			
 			$query= "
 				PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-				PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
+				PREFIX gco: <http://linkeddata.center/ontology/geocodit/v1#>
 				PREFIX owl: <http://www.w3.org/2002/07/owl#>
 				PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
 				SELECT ?comune ?codIstatComune ?provincia ?codIstatProvincia ?regione ?codIstatRegione ?lat ?long 

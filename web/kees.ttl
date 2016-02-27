@@ -57,7 +57,7 @@ _:linkedgeodataAmenities a kees:SparqlIngestion ;
 	kees:constructQuery """
 		PREFIX lgdo: <http://linkedgeodata.org/ontology/addr%3A>
 		PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-		PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
+		PREFIX gco: <http://linkeddata.center/ontology/geocodit/v1#>
 		CONSTRUCT {
 			?s a gco:Luogo ;
 			    gco:haComune ?uriByName  ;
@@ -109,7 +109,7 @@ _:wikidataZips  a kees:SparqlIngestion ;
 	kees:queryMethod "GET" ;
 	kees:constructQuery """
 		PREFIX wd: <http://www.wikidata.org/entity/>
-		PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
+		PREFIX gco: <http://linkeddata.center/ontology/geocodit/v1#>
 	    PREFIX owl: <http://www.w3.org/2002/07/owl#>
 		CONSTRUCT {
 		  ?uriByIstat owl:sameAs ?wikidataUri ; gco:cap ?cap .
@@ -164,7 +164,7 @@ _:istatComuni  a kees:SparqlIngestion ;
 	kees:sparqlEndpoint <http://datiopen.istat.it/sparql/oracle> ;
 	kees:constructQuery """
 	    PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
-		PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
+		PREFIX gco: <http://linkeddata.center/ontology/geocodit/v1#>
 		PREFIX owl: <http://www.w3.org/2002/07/owl#>
 	    CONSTRUCT { 
 	        ?uriIstat a gco:Comune; 
@@ -226,7 +226,7 @@ _:istatRegioni  a kees:SparqlIngestion ;
 #######################################################
 []  rdfs:comment "Generate a search key for geocoder" ;
 	kees:ruleText """
-		PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
+		PREFIX gco: <http://linkeddata.center/ontology/geocodit/v1#>
 	    PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
 		IF {
 			GRAPH ?g { 
@@ -253,7 +253,7 @@ _:istatRegioni  a kees:SparqlIngestion ;
 	rdfs:comment "Indicazioni geografiche del territorio.  (Accetta i parametri LIMIT=100 OFFSET=0)";
 	kees:queryText """
 		PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-		PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
+		PREFIX gco: <http://linkeddata.center/ontology/geocodit/v1#>
     	PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
 		SELECT ?toponimo_stradale ?n_civico ?comune ?cod_istat ?lat ?long ?source
 		WHERE {
@@ -299,7 +299,7 @@ _:istatRegioni  a kees:SparqlIngestion ;
 	rdfs:comment "Tutti i comuni italiani.  ( Accetta i parametri LIMIT=100 OFFSET=0)";
 	kees:queryText """
 		PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
-		PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
+		PREFIX gco: <http://linkeddata.center/ontology/geocodit/v1#>
 		SELECT  ?comune ?cod_istat ?provincia ?regione ?source
 		WHERE {
 	        GRAPH <urn:istat:comuni> {
@@ -361,7 +361,7 @@ _:istatRegioni  a kees:SparqlIngestion ;
 	rdfs:label "Codici avviamento postale"@it ;
 	rdfs:comment "Accetta i parametri LIMIT(dafault=100) OFFSET (default=0)"@it ;
 	kees:queryText """
-	    PREFIX gco: <http://geocodit.linkeddata.center/ontology#>
+	    PREFIX gco: <http://linkeddata.center/ontology/geocodit/v1#>
     	PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
 		SELECT DISTINCT ?comune ?cap ?cod_istat
 		WHERE {
