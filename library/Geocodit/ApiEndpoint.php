@@ -17,7 +17,7 @@ namespace Geocodit;
 
 use BOTK\Core\Caching;                  						// manage HTTP caching
 
-class ApiEndPoint extends \BOTK\Core\EndPoint {
+class ApiEndpoint extends \BOTK\Core\EndPoint {
 
     protected function setRoutes() {
     	

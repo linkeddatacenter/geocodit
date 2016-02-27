@@ -1,150 +1,120 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.1//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-2.dtd"><html
-   xmlns="http://www.w3.org/1999/xhtml"  xmlns:rdfa="http://www.w3.org/ns/rdfa#"
-   version="XHTML+RDFa 1.1">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.1//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-2.dtd"><html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:rdfa="http://www.w3.org/ns/rdfa#" version="XHTML+RDFa 1.1">
   <head>
-    <meta  content="text/html; charset=utf-8"  http-equiv="content-type">
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
     <title>KEES Language Profile</title>
-    <meta  name="keywords"  content="RDFa, Geocodit">
-    <meta  name="description"  content="A Language profile for GeocodIT service.">
-    <meta  name="author"  content="E.Fagnoni">
-    <link  rel="license"  href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
-    <link  rel="stylesheet"  type="text/css"  href="http://linkeddata.center/resources/v4/css/doc.css">
+    <meta name="keywords" content="RDFa, Geocodit">
+    <meta name="description" content="A Language profile for GeocodIT service.">
+    <meta name="author" content="E.Fagnoni">
+    <link rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+    <link rel="stylesheet" type="text/css" href="http://linkeddata.center/resources/v4/css/doc.css">
   </head>
   <body>
     <header>
-      <div  class="jumbotron">
-        <h1  id="label">GeocodIT Language Profile</h1>
-        <p  id="subject">A language profile for GeocodIT semantic web
-          application.</p>
+      <div class="jumbotron">
+        <h1 id="label">GeocodIT Language Profile</h1>
+        <p id="subject">A language profile for GeocodIT semantic web application.</p>
       </div>
-      <div  class="metadata">
+      <div class="metadata">
         <dl>
-          <dd><a  href="https://github.com/linkeddatacenter/geocodit"  class="btn">View GeocodIT project 
-              in GitHub</a></dd>
+          <dd><a href="https://github.com/linkeddatacenter/geocodit" class="btn">View GeocodIT project in GitHub</a></dd>
         </dl>
       </div>
-      <section  id="abstract">
+      <section id="abstract">
         <h2>Abstract</h2>
-        <p>GeocodIT is a system that manages a <a  href="https://en.wikipedia.org/wiki/Geocoding">geocoding</a>
+        <p>GeocodIT is a system that manages italian <a href="https://en.wikipedia.org/wiki/Geocoding">geocoding</a>
           using W3C semantic web best practices and standards.</p>
-        <p> In order to let computers to work for us, they must understand data.
-          Not only grammar and syntax (like in EDI) but the real meaning of
-          things. When this is clear, machines can recognize, manage data and
-          make decisions even when their provenance and quality is not totally
-          known and data are incomplete. To enable this, we need to share
-          knowledge using a language that is understandable both for humans and
-          machines. </p>
-        <p> A language profile is a trimmed down version or an extension of a
-          set of ontologies that trades some expressive power for the efficiency
-          of reasoning. </p>
-        <p> This document describes vocabularies and constraints to be used to
-          describe GeocodIT data. </p>
+        <p> In order to let computers to work for us, they must understand data. Not only grammar and syntax (like in
+          EDI) but the real meaning of things. When this is clear, machines can recognize, manage data and make
+          decisions even when their provenance and quality is not totally known and data are incomplete. To enable this,
+          we need to share knowledge using a language that is understandable both for humans and machines. </p>
+        <p> A language profile is a trimmed down version or an extension of a set of ontologies that trades some
+          expressive power for the efficiency of reasoning. </p>
+        <p> This document describes vocabularies and constraints to be used to describe GeocodIT data. </p>
       </section>
     </header>
-    <h2  id="prefixes">Name spaces</h2>
+    <h2 id="prefixes">Name spaces</h2>
     <p>The following prefixes are defined inside this document</p>
     <ul>
-      <li  typeof="rdfa:PrefixMapping"> <b><span  property="rdfa:prefix">ter</span>:</b>
-        <span  property="rdfa:uri">http://datiopen.istat.it/odi/ontologia/territorio/</span>
+      <li typeof="rdfa:PrefixMapping"> <b><span property="rdfa:prefix">ter</span>:</b> <span property="rdfa:uri">http://datiopen.istat.it/odi/ontologia/territorio/</span>
       </li>
-      <li  typeof="rdfa:PrefixMapping"> <b><span  property="rdfa:prefix">gco</span>:</b>
-        <span  property="rdfa:uri">http://geocodit.linkeddata.center/ontology#</span></li>
-      <li  typeof="rdfa:PrefixMapping"> <b><span  property="rdfa:prefix">geo</span>:</b>
-        <span  property="rdfa:uri">http://www.w3.org/2003/01/geo/wgs84_pos#</span></li>
-      <li  typeof="rdfa:PrefixMapping"> <b><span  property="rdfa:prefix">rdfs</span>:</b>
-        <span  property="rdfa:uri">http://www.w3.org/2000/01/rdf-schema#</span>
+      <li typeof="rdfa:PrefixMapping"> <b><span property="rdfa:prefix">gco</span>:</b> <span property="rdfa:uri">http://geocodit.linkeddata.center/ontology#</span></li>
+      <li typeof="rdfa:PrefixMapping"> <b><span property="rdfa:prefix">geo</span>:</b> <span property="rdfa:uri">http://www.w3.org/2003/01/geo/wgs84_pos#</span></li>
+      <li typeof="rdfa:PrefixMapping"> <b><span property="rdfa:prefix">rdfs</span>:</b> <span property="rdfa:uri">http://www.w3.org/2000/01/rdf-schema#</span>
       </li>
-      <li  typeof="rdfa:PrefixMapping"> <b><span  property="rdfa:prefix">skos</span>:</b>
-        <span  property="rdfa:uri">http://www.w3.org/2004/02/skos/core#</span> </li>
+      <li typeof="rdfa:PrefixMapping"> <b><span property="rdfa:prefix">skos</span>:</b> <span property="rdfa:uri">http://www.w3.org/2004/02/skos/core#</span>
+      </li>
     </ul>
     <br>
     This document can be imported as a RDFa 1.1 profile.
     <h2>GeocodIT ontology</h2>
-    <p>The <a  href="ontology.ttl">GeocodIT ontology</a> refines some terms
-      used to annotate linked data.You should understand all ontology terms.</p>
-    <p>A special algorithm should be used for each for <span  style="font-weight: bold;">gco:Luogo</span>
-      objecs in order to make them  searchable by GeocodIT geocoder. Here
-      you find the equivalent SPARQL construct:</p>
-    <pre>CONSTRUCT  { ?searchUri owl:sameAs ?luogo }  WHERE {<br>  GRAPH ?g { <br>    ?luogo a gco:Luogo ;<br>             gco:haComune ?uriComune  ;<br>             gco:haNumeroCivico ?housenumber ;<br>             gco:haToponimoStradale ?street <br>  }<br>  GRAPH <urn:istat:comuni> { ?uriComune owl:sameAs [ a gco:Comune ;  ter:haNome ?city ] }             <br>  BIND(IRI(CONCAT('urn:uuid:', MD5(UCASE(REPLACE(CONCAT(?street,?housenumber,?city ),"[^\\w]",''))))) AS ?searchUri  )<br>}</urn:istat:comuni></pre>
-		<p><br></p>
-		
+    <p>The <a href="ontology.ttl">GeocodIT ontology</a> defines some terms used to annotate linked data.You should
+      understand all ontology terms.</p>
     <h2>Ontologia del territorio</h2>
-    <p>The <a  href="http://datiopen.istat.it/datasetOntologie.php?call=ontologie">ontologia
-        del territorio</a> is published by ISTAT. </p>
+    <p>The <a href="http://datiopen.istat.it/datasetOntologie.php?call=ontologie">ontologia del territorio</a> is
+      published by ISTAT. </p>
     <p>You should understand at least following terms:</p>
     <ul>
-      <li><a  href="http://datiopen.istat.it/odi/ontologia/territorio/COM"><span
- style="font-weight: bold;">ter:COM</span></a> <span  style="font-weight: bold;"></span></li>
-      <li><a  href="http://datiopen.istat.it/odi/ontologia/territorio/REG"><span
- style="font-weight: bold;">ter:REG</span></a></li>
-      <li><a  href="http://datiopen.istat.it/odi/ontologia/territorio/PROV"><span
- style="font-weight: bold;">ter:PROV</span></a></li>
-      <li><a  href="http://datiopen.istat.it/odi/ontologia/territorio/regione_di_PROV"><span
- style="font-weight: bold;">ter:regione_di_PROV</span></a></li>
-      <li><a  href="http://datiopen.istat.it/odi/ontologia/territorio/provincia_di_COM"><span
- style="font-weight: bold;">ter:provincia_di_COM</span></a></li>
-      <li><a  href="http://datiopen.istat.it/odi/ontologia/territorio/haNome"><span
- style="font-weight: bold;">ter:haNome</span></a> </li>
-      <li><a  href="http://datiopen.istat.it/odi/ontologia/territorio/haCodIstat"><span
- style="font-weight: bold;">ter:haCodIstat</span></a> </li>
+      <li><a href="http://datiopen.istat.it/odi/ontologia/territorio/COM"><span style="font-weight: bold;">ter:COM</span></a>
+        <span style="font-weight: bold;"></span></li>
+      <li><a href="http://datiopen.istat.it/odi/ontologia/territorio/REG"><span style="font-weight: bold;">ter:REG</span></a></li>
+      <li><a href="http://datiopen.istat.it/odi/ontologia/territorio/PROV"><span style="font-weight: bold;">ter:PROV</span></a></li>
+      <li><a href="http://datiopen.istat.it/odi/ontologia/territorio/regione_di_PROV"><span style="font-weight: bold;">ter:regione_di_PROV</span></a></li>
+      <li><a href="http://datiopen.istat.it/odi/ontologia/territorio/provincia_di_COM"><span style="font-weight: bold;">ter:provincia_di_COM</span></a></li>
+      <li><a href="http://datiopen.istat.it/odi/ontologia/territorio/haNome"><span style="font-weight: bold;">ter:haNome</span></a>
+      </li>
+      <li><a href="http://datiopen.istat.it/odi/ontologia/territorio/haCodIstat"><span style="font-weight: bold;">ter:haCodIstat</span></a>
+      </li>
     </ul>
-    <p>All the properties must be considered restricted to cardinality =1 (ie.
-      exactly a value for each attribute)</p>
+    <p>All the properties must be considered restricted to cardinality =1 (ie. exactly a value for each attribute)</p>
     <h2>Basic Geo (WGS84 lat/long) Vocabulary</h2>
-    <p><span  style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);"><a
- href="https://www.w3.org/2003/01/geo/">Geo</a> is a<span  class="Apple-converted-space"> </span></span><em
- style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">basic</em><span
- style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);"><span
- class="Apple-converted-space"> </span>W3C RDF vocabulary that
-        provides the Semantic Web community with a namespace for representing<span
- class="Apple-converted-space"> </span></span><strong  style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">lat</strong><span
- style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);">(itude),<span
- class="Apple-converted-space"> </span></span><strong  style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">long</strong><span
- style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);">(itude)
-        and other information about spatially-located things, using WGS84 as a
-        reference datum.</span></p>
+    <p><span style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);"><a
+          href="https://www.w3.org/2003/01/geo/">Geo</a> is a<span class="Apple-converted-space">&nbsp;</span></span><em
+        style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">basic</em><span
+        style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);"><span
+          class="Apple-converted-space"> </span>W3C RDF vocabulary that provides the Semantic Web community with a
+        namespace for representing<span class="Apple-converted-space">&nbsp;</span></span><strong style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">lat</strong><span
+        style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);">(itude),<span
+          class="Apple-converted-space">&nbsp;</span></span><strong style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">long</strong><span
+        style="color: rgb(0, 0, 0); font-family: 'Gill Sans', 'Trebuchet MS', 'Gill Sans MT', sans-serif; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);">(itude)
+        and other information about spatially-located things, using WGS84 as a reference datum.</span></p>
     <ul>
     </ul>
     <h2>RDF Schema 1.1 </h2>
-    <p><a  href="https://www.w3.org/TR/rdf-schema/"><span  style="color: rgb(42, 100, 150);"><span
- style="text-decoration: underline;">RDF Schema 1.1</span></span></a>  
-      provides a data-modelling vocabulary for RDF data. RDF Schema is an
+    <p><a href="https://www.w3.org/TR/rdf-schema/"><span style="color: rgb(42, 100, 150);"><span style="text-decoration: underline;">RDF
+            Schema 1.1</span></span></a>&nbsp;&nbsp; provides a data-modelling vocabulary for RDF data. RDF Schema is an
       extension of the basic RDF vocabulary.</p>
     <p>You should understand only following term:</p>
     <ul>
-      <li><span  style="font-weight: bold;"><a  href="https://www.w3.org/TR/rdf-schema/#ch_label">rdfs:label</a>
-        </span>used to indicate a common name for the object, only @it language
-        tag should be used</li>
-      <li><span  style="font-weight: bold;"><a  href="https://www.w3.org/TR/rdf-schema/#ch_comment">rdf:comment</a>
-        </span><span  style="font-weight: bold;"> </span>used to annotate uri,
-        no special meaning asociated</li>
+      <li><span style="font-weight: bold;"><a href="https://www.w3.org/TR/rdf-schema/#ch_label">rdfs:label</a> </span>used
+        to indicate a common name for the object, only @it language tag should be used</li>
+      <li><span style="font-weight: bold;"><a href="https://www.w3.org/TR/rdf-schema/#ch_comment">rdf:comment</a> </span><span
+          style="font-weight: bold;"> </span>used to annotate uri, no special meaning asociated</li>
     </ul>
     <h2>SKOS</h2>
-    <p><a  href="https://www.w3.org/TR/skos-primer/"><span  style="color: rgb(42, 100, 150);"><span
- style="text-decoration: underline;">SKOS</span></span></a>  
-      provides a taxonomy vocabulary used for static lassification of some standard terms like DUG (Denominazioni urbanistiche generiche).</p>
+    <p><a href="https://www.w3.org/TR/skos-primer/"><span style="color: rgb(42, 100, 150);"><span style="text-decoration: underline;">SKOS</span></span></a>&nbsp;&nbsp;
+      provides a taxonomy vocabulary used for static lassification of some standard terms like DUG (Denominazioni
+      urbanistiche generiche).</p>
     <p>You should understand only following term:</p>
     <ul>
-      <li><span  style="font-weight: bold;"><a  href="http://www.w3.org/2004/02/skos/core#skos:ConceptScheme">skos:ConceptScheme</a>
-      </span>used to indicate a classification schema </li>
-      <li><span  style="font-weight: bold;"><a  href="http://www.w3.org/2004/02/skos/core#skos:Concept">skos:Concept</a>
-        </span><span  style="font-weight: bold;"> </span>used to annotate abstract concepts</li>
-      <li><span  style="font-weight: bold;"><a  href="http://www.w3.org/2004/02/skos/core#skos:prefLabel">skos:prefLabel</a>
-        </span><span  style="font-weight: bold;"> </span>used to annotate the label associated to concepts(it only)</li>
+      <li><span style="font-weight: bold;"><a href="http://www.w3.org/2004/02/skos/core#skos:ConceptScheme">skos:ConceptScheme</a>
+        </span>used to indicate a classification schema </li>
+      <li><span style="font-weight: bold;"><a href="http://www.w3.org/2004/02/skos/core#skos:Concept">skos:Concept</a> </span><span
+          style="font-weight: bold;"> </span>used to annotate abstract concepts</li>
+      <li><span style="font-weight: bold;"><a href="http://www.w3.org/2004/02/skos/core#skos:prefLabel">skos:prefLabel</a>
+        </span><span style="font-weight: bold;"> </span>used to annotate the label associated to concepts(it only)</li>
     </ul>
     <h2>OWL </h2>
-    <p><a  href="https://www.w3.org/TR/owl2-overview/">OWL</a> provides an
-      ontology description language, besides to describe vocaularies, you should
-      use <span  style="font-weight: bold;">owl:sameAs</span> to interlink
-      data.</p>
+    <p><a href="https://www.w3.org/TR/owl2-overview/">OWL</a> provides an ontology description language, besides to
+      describe vocaularies, you should use <span style="font-weight: bold;">owl:sameAs</span> to interlink data.</p>
     <h2>An example</h2>
-    <p>See https://gist.github.com/ecow/6f265484b08cf61faed3</p>
-    <script  src="https://gist.github.com/ecow/6f265484b08cf61faed3.js"></script>
+    <p>See <a target="_blank" href="https://gist.github.com/ecow/6f265484b08cf61faed3">https://gist.github.com/ecow/6f265484b08cf61faed3</a></p>
+    <script src="https://gist.github.com/ecow/6f265484b08cf61faed3.js"></script>
     <h2>License</h2>
-    <p  id="rightsHolder"> Copyright © 2016 by <a  href="http://LinkedData.Center/">LinkedData.Center</a>
-      and licensed under <a  rel="license"  href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
-        Attribution-NonCommercial-NoDerivatives 4.0 International Unported
-        License <img  alt="Creative Commons License"  style="border-width:0"  src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-      </a>. </p>
-</body></html>
+    <p id="rightsHolder"> Copyright © 2016 by <a href="http://LinkedData.Center/">LinkedData.Center</a> and licensed
+      under <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
+        Attribution-NonCommercial-NoDerivatives 4.0 International Unported License <img alt="Creative Commons License"
+          style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"> </a>. </p>
+  </body>
+</html>

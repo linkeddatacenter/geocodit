@@ -19,7 +19,7 @@ use BOTK\Core\Representations\Standard;
 use Geocodit\Model\Benchmark;
 
 
-class GeocoderBenchmarkRenderer extends Standard {
+class GeocoderBenchmarkRenderer extends GoogleAnalyticsEnabledRenderer {
 	
     public static function htmlRenderer($benchmark) {
         static::setContentType('text/html');
@@ -71,7 +71,7 @@ class GeocoderBenchmarkRenderer extends Standard {
 		$html .=	"</table>";
 	 
 	 
-        return static::htmlSerializer( $html, static::$htmlMetadata, "Geocoders benchmark", "<h3>$benchmark->query</h3>", null, true);
+        return static::htmlSerializer( $html, static::$htmlMetadata, "Geocoders benchmark", "<h3>$benchmark->query</h3>", self::GoogleAnalyticsSnippet(), true);
     }
 
 }

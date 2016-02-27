@@ -21,10 +21,10 @@ use BOTK\Core\Representations\Standard; // for CSS
 
 // search configs files in  in config and /etc/geocodit directories
 if (! isset($_ENV['BOTK_CONFIGDIR'])) {
-	if ( is_dir('/etc/geocodit') ) {
-		$_ENV['BOTK_CONFIGDIR'] = '/etc/geocodit';
-	} elseif ( file_exists( __DIR__. '/../../config/geocodit.ini')) {
+	if ( file_exists( __DIR__. '/../../config/geocodit.ini')) {
 		$_ENV['BOTK_CONFIGDIR'] = realpath(__DIR__. '/../../config');
+	} elseif ( is_dir('/etc/geocodit') ) {
+		$_ENV['BOTK_CONFIGDIR'] = '/etc/geocodit';
 	}
 }
 
@@ -32,7 +32,7 @@ if (! isset($_ENV['BOTK_CONFIGDIR'])) {
 $errorManager = ErrorManager::getInstance()->registerErrorHandler(); 
 
 try {
-	$endpoint = EndPointFactory::make('Geocodit\GwEndPoint');
+	$endpoint = EndPointFactory::make('Geocodit\GatewayEndpoint');
 	$result = $endpoint->run();
 } catch ( Exception $e) {
     $result = ErrorManager::getInstance()->render($e); 

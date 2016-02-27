@@ -1,9 +1,9 @@
 {
     "name": "linkeddatacenter/geocodit",
     "description": "RESTful APIs for geocodit",
-    "type": "project",
-    "homepage": "https://bitbucket.org/linkeddatacenter/geocodit",
-    "license": "Proprietary - All Rights Reserved for LinkedData.Center",
+    "type": "library",
+    "homepage": "https://github.com/linkeddatacenter",
+    "license": "MIT",
     "authors": [
         {
             "name": "Enrico Fagnoni",
@@ -14,7 +14,7 @@
 	    "type": "package",
 	    "package": {
 	        "name": "PHPOffice/PHPExcel",
-	        "version": "1.8.0",
+	        "version": "1.8.1",
 	        "source": {
 	            "url": "https://github.com/PHPOffice/PHPExcel.git",
 	            "type": "git",

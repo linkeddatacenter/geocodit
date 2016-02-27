@@ -15,12 +15,10 @@
  
 namespace Geocodit;
 
-class GwEndPoint extends \BOTK\Core\EndPoint {
-
-    protected function setRoutes() {
-    	
-		//  define here available gateways services
-		$gateways = array(
+class GatewayEndpoint extends \BOTK\Core\EndPoint {
+	
+	protected function registerGateways() {
+		return array(
 		
 			 'dug'			=>  function() {
 			 	 return new Gateway\DUG('http://www.agenziaentrate.gov.it/wps/file/Nsilib/Nsi/Home/CosaDeviFare/Consultare+dati+catastali+e+ipotecari/Scambio+dati+catastali+e+cartografici+con+enti+o+PA/Portale+per+i+Comuni/Servizi+portale+dei+comuni/toponomastica/Elenco+DUG/Copia+di+DUG_VALIDE_16122014.xls');
@@ -36,6 +34,12 @@ class GwEndPoint extends \BOTK\Core\EndPoint {
 				return	$gw->setFieldsSelector( function($data) { return array( null, $data[2], $data[5], $data[14], $data[15]); } );
 			 },
 		);
+	}
+
+    protected function setRoutes() {
+    	
+		//  define here available gateways services
+		$gateways = $this->registerGateways();
 
     	$this->get('/', array_keys($gateways))
 			->accept(\BOTK\Core\Representations\Standard::renderers());

@@ -19,7 +19,7 @@ use BOTK\Core\Representations\Standard;
 use Geocoder\Model\Address;
 
 
-class GeocoderRenderer extends Standard {
+class GeocoderRenderer extends GoogleAnalyticsEnabledRenderer {
 
     protected static $renderers = array(
         'application/vnd.geo+json'  => 'geoJSONRenderer',
@@ -70,7 +70,7 @@ class GeocoderRenderer extends Standard {
 			</iframe>	
 		";
      
-        return static::htmlSerializer($body, static::$htmlMetadata, $title,null,null,true);
+        return static::htmlSerializer($body, static::$htmlMetadata, $title,null,self::GoogleAnalyticsSnippet(),true);
     }
 
 }

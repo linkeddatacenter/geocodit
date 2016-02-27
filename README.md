@@ -76,6 +76,7 @@ GeocodIT can be used in different ways:
 - use GeocodIT benchamark to get an idea of how different geocoders performs
 - query the knowledge base and import geocoding information in your systems
 - use the provided gateways to transform 3 stars open data in 5 stars full flagged Linked Open Data.
+- use geocodit as a library to build your own service
 
 ### Using data interface
 
@@ -84,13 +85,14 @@ Just point your browser (or your http client) to the desidered table (e.g https:
 provide your LinkedData.Center credential as basic http authentication. Data interface supports content negotiation.
 Of course you can access SPARQL endpoint (e.g. https://hub1.linkeddata.center/demo/query) fully compliant with [SPARQL 1.1 specifications](https://www.w3.org/TR/sparql11-query/) and protocol.
 
-### Using geocoder
+### Using geocoder API
 
 The geocoedr  enpoint will be available at <your server ip or FQDN>/api/geocode (e.g. http://geocodit.linkeddata.center/api)
 
     geocode?q=*address*[&trust=*trust_profile*] : returns address geolocation using a gecoding profile optimization(default: cost).
 
 Available trust profiles:
+
 - **opendata** (default): search knowledge base, if address not found fall backs on open street map enriching results with istat codes
 - **ms**: try bing maps first, if no results try search KB
 - **google**: try google  maps first, if no results try search KB
@@ -98,13 +100,14 @@ Available trust profiles:
 - **all**: try google maps first, then bing maps, then open street map, then if still no results try search KB
 
 Beside this you can trust on result a provider alone:
+
 - **geocodit** : just uste kb data (free)
 - **geocoditOSM** : openstreet map enriched with KB data (free, no more than a query per second)
 - **google_map** : google maps (require key, license rescstrition on data usage)
 - **bin_map** : google maps (require key, license rescstrition on data usage)
 - **openstreetmap** : open street map (free, no more than a query per second)
 
-### Using benchmark
+### Using benchmark API
 
 The benchmark  enpoint will be available at <your server ip or FQDN>/api/benchark (e.g. http://geocodit.linkeddata.center/api)
     benchmark?q=*address* : compare the results of all supported geocoders.
@@ -115,6 +118,34 @@ The GeocodIT gateways will be available at <your server ip or FQDN>/gw/{*gateway
 
 All gateways stream a three star resource as a RDF turtle resource. Data are transfrmed in real time [ TBD: and cached for one day].
 
+## Using geocodit as a library
+Add following dependance to **composer.json** file in your project root:
+
+```
+    {
+        "require": {
+            "linkeddatacenter/geocodit": "*"
+        }
+    }
+```
+
+GeocodIT is a companion of [Geocoder](https://github.com/geocoder-php/Geocoder).
+
+It exposes two additional providers : geocodit and geocoditOSM, the first is a stand alone profiders that use knowledge base data for toponimy resolution,
+te second it is an extension of openstreetmap providers that enrich open street map algoritm wit some peculiar open data (mainly by istat).
+
+Choose the one that fits your need first. Let's say the `geocoditOSM` one is what
+you were looking for, so let's see how to use it. In the code snippet below,
+`curl` has been chosen as [HTTP layer](#http-adapters) but it is up to you
+since each HTTP-based provider implements
+[PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md).
+
+```php
+$curl     = new \Ivory\HttpAdapter\CurlHttpAdapter();
+$geocoder = new \Geocodit\Provider\GeocoditOSM($curl,  'demo', 'demo');
+
+$geocoder->geocode(...);
+```
 
 ## Extending geocodit
 More or less you just have to find new data sources and design a proper ingestion policy to be added to knowledge base configuration file.

@@ -1,20 +1,20 @@
 @prefix : <http://data.consodata.it/ontology/gecodit#> .
-@prefix gco: <http://geocodit.linkeddata.center/ontology#> .
+@prefix gco: <http://linkeddata.center/ontology/geocodit/v1#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix ter: <http://datiopen.istat.it/odi/ontologia/territorio/> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <http://geocodit.linkeddata.center/ontology> .
+@base <http://linkeddata.center/ontology/geocodit/v1> .
 
-<http://geocodit.linkeddata.center/ontology> rdf:type owl:Ontology ;
-                                             
-                                             rdfs:label "geocodit ontology"@en ;
-                                             
-                                             owl:versionInfo "V 1.0  Release 2016-02-26"@en ;
-                                             
-                                             rdfs:comment "An application ontology for geocodit project"@it .
+<http://linkeddata.center/ontology/geocodit/v1> rdf:type owl:Ontology ;
+                                                
+                                                rdfs:label "geocodit ontology"@en ;
+                                                
+                                                owl:versionInfo "V 1.0  Release 2016-02-26"@en ;
+                                                
+                                                rdfs:comment "An application ontology for geocodit project"@it .
 
 
 #################################################################
@@ -30,7 +30,7 @@ ter:provincia_di_COM rdf:type owl:ObjectProperty .
 
 
 
-###  http://geocodit.linkeddata.center/ontology#haComune
+###  http://linkeddata.center/ontology/geocodit/v1#haComune
 
 gco:haComune rdf:type owl:FunctionalProperty ,
                       owl:ObjectProperty ;
@@ -74,7 +74,7 @@ ter:haNome rdf:type owl:DatatypeProperty ;
 
 
 
-###  http://geocodit.linkeddata.center/ontology#cap
+###  http://linkeddata.center/ontology/geocodit/v1#cap
 
 gco:cap rdf:type owl:DatatypeProperty ;
         
@@ -88,7 +88,7 @@ gco:cap rdf:type owl:DatatypeProperty ;
 
 
 
-###  http://geocodit.linkeddata.center/ontology#haNumeroCivico
+###  http://linkeddata.center/ontology/geocodit/v1#haNumeroCivico
 
 gco:haNumeroCivico rdf:type owl:DatatypeProperty ,
                             owl:FunctionalProperty ;
@@ -103,7 +103,7 @@ gco:haNumeroCivico rdf:type owl:DatatypeProperty ,
 
 
 
-###  http://geocodit.linkeddata.center/ontology#haToponimoStradale
+###  http://linkeddata.center/ontology/geocodit/v1#haToponimoStradale
 
 gco:haToponimoStradale rdf:type owl:DatatypeProperty ,
                                 owl:FunctionalProperty ;
@@ -147,7 +147,7 @@ ter:PROV rdf:type owl:Class .
 
 
 
-###  http://geocodit.linkeddata.center/ontology#Comune
+###  http://linkeddata.center/ontology/geocodit/v1#Comune
 
 gco:Comune rdf:type owl:Class ;
            
@@ -155,11 +155,12 @@ gco:Comune rdf:type owl:Class ;
            
            rdfs:subClassOf ter:COM ,
                            [ rdf:type owl:Restriction ;
-                             owl:onProperty gco:cap ;
-                             owl:someValuesFrom xsd:string
+                             owl:onProperty ter:haNome ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onDataRange xsd:string
                            ] ,
                            [ rdf:type owl:Restriction ;
-                             owl:onProperty ter:haNome ;
+                             owl:onProperty ter:haCodIstat ;
                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                              owl:onDataRange xsd:string
                            ] ,
@@ -169,30 +170,29 @@ gco:Comune rdf:type owl:Class ;
                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
                            ] ,
                            [ rdf:type owl:Restriction ;
-                             owl:onProperty ter:haCodIstat ;
-                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                             owl:onDataRange xsd:string
+                             owl:onProperty gco:cap ;
+                             owl:someValuesFrom xsd:string
                            ] ;
            
            rdfs:comment "Comune italiano"@it .
 
 
 
-###  http://geocodit.linkeddata.center/ontology#Luogo
+###  http://linkeddata.center/ontology/geocodit/v1#Luogo
 
 gco:Luogo rdf:type owl:Class ;
           
           rdfs:label "Luogo"@it ;
           
           rdfs:subClassOf [ rdf:type owl:Restriction ;
-                            owl:onProperty gco:haComune ;
-                            owl:onClass gco:Comune ;
-                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
-                          ] ,
-                          [ rdf:type owl:Restriction ;
                             owl:onProperty gco:haToponimoStradale ;
                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                             owl:onDataRange xsd:string
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty gco:haComune ;
+                            owl:onClass gco:Comune ;
+                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
                           ] ,
                           [ rdf:type owl:Restriction ;
                             owl:onProperty gco:haNumeroCivico ;

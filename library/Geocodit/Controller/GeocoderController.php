@@ -22,13 +22,11 @@ class GeocoderController extends AbstractController {
 		'google'	=> array('google_maps','geocodit'),
 		'osm'		=> array('openstreetmap', 'geocodit'),
 		'tryall'	=> array( 'bing_maps', 'google_maps', 'openstreetmap', 'geocodit'),
-		
 		'geocodit'		=> array('geocodit'),
 		'geocoditOSM'	=> array('geocoditOSM'),
 		'bing_maps'		=> array('bing_maps'),
 		'google_maps'	=> array('google_maps'),
 		'openstreetmap'	=> array('openstreetmap'),
-		
 	);
 
 	public  function VALID_PENALITY() {
@@ -54,8 +52,9 @@ class GeocoderController extends AbstractController {
 		// get default parameters from config
 		$config	 = $context->ns('geocodit');
 		$defaultProfile 	= $config->getValue( 'trust', 			'geocodit', 							$this->VALID_PROFILE());
-		$defaultAddress		= $config->getValue( 'defaultAddress', 	'Via Montefiori 13, 23825 Esino Lario', FILTER_SANITIZE_STRING);
+		$defaultAddress		= $config->getValue( 'defaultAddress', 	'Via Montefiori 13, Esino Lario', FILTER_SANITIZE_STRING);
 		$penality			= $config->getValue( 'penality', 		2,  									$this->VALID_PENALITY());
+
 		
 		// get input patrameters from URL quesry string
 		$input = $context->ns(INPUT_GET);
@@ -80,7 +79,7 @@ class GeocoderController extends AbstractController {
 			->geocode($query)
 			->first();
 
-		// apply penality (just to avoid abuse, set to 0 in config fil to disable)
+		// apply penality (just to avoid abuse, set to 0 in config file to disable)
 		if($penality>0) {usleep($penality*1000000);}
 		
 		
