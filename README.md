@@ -1,4 +1,9 @@
 # GeocodIT project
+[![Build Status](https://img.shields.io/travis/linkeddatacenter/geocodit.svg?style=flat-square)](http://travis-ci.org/linkeddatacenter/geocodit)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/linkeddatacenter/geocodit.svg?style=flat-square)](https://scrutinizer-ci.com/g/linkeddatacenter/geocodit)
+[![Latest Version](https://img.shields.io/packagist/v/linkeddatacenter/geocodit.svg?style=flat-square)](https://packagist.org/packages/linkeddatacenter/geocodit)
+[![Total Downloads](https://img.shields.io/packagist/dt/linkeddatacenter/geocodit.svg?style=flat-square)](https://packagist.org/packages/linkeddatacenter/geocodit)
+[![License](https://img.shields.io/packagist/l/linkeddatacenter/geocodit.svg?style=flat-square)](https://packagist.org/packages/linkeddatacenter/geocodit)
 
 GeocodIT is a system that manages a [geocoding](https://en.wikipedia.org/wiki/Geocoding) knowledge base using W3C semantic web best practices and standards.
 
@@ -73,10 +78,10 @@ The demo knowledge base is pre-populate, use these instructions to create your o
 
 GeocodIT can be used in different ways:
 - use geocoder API like you should do with Google Maps API or Openstreet map. GeocodIT geocoder is a RESTful web services that supports http content negotiation for all main GeocodIT formats. **GeocodIT  is able to play along with your trust in all geocoder algoritms** allowing you to choose your preferred trust profile (e.g. open data, google, microsoft, ect)
-- use GeocodIT benchamark to get an idea of how different geocoders performs
-- query the knowledge base and import geocoding information in your systems
+- use GeocodIT benchmark to get an idea of how different geocoders perform.
+- query the knowledge base and import geocoding raw data in your systems
 - use the provided gateways to transform 3 stars open data in 5 stars full flagged Linked Open Data.
-- use geocodit as a library to build your own service
+- use it as a composer library to build your own service
 
 ### Using data interface
 
