@@ -62,7 +62,7 @@ class Geocodit extends \Geocoder\Provider\AbstractHttpProvider implements \Geoco
 					    geo:long $long .
 					    BIND ( $lat AS ?lat )
 					    BIND ( $long AS ?long )
-					OPTIONAL { <$searchUri> gco:haNumeroCivico ?housenumber }
+					OPTIONAL { ?luogo gco:haNumeroCivico ?housenumber }
 				}
 		":"
 				GRAPH ?g2 {

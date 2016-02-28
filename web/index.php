@@ -8,8 +8,8 @@ DEFINE('DEMO_ENDPOINT', 'https://hub1.linkeddata.center/demo');
 
 // search configs files in  in config and /etc/geocodit directories
 if (! isset($_ENV['BOTK_CONFIGDIR'])) {
-	if ( file_exists( __DIR__. '/../../config/geocodit.ini')) {
-		$_ENV['BOTK_CONFIGDIR'] = realpath(__DIR__. '/../../config');
+	if ( file_exists( __DIR__. '/../config/geocodit.ini')) {
+		$_ENV['BOTK_CONFIGDIR'] = realpath(__DIR__. '/../config');
 	} elseif ( is_dir('/etc/geocodit') ) {
 		$_ENV['BOTK_CONFIGDIR'] = '/etc/geocodit';
 	}
@@ -21,9 +21,9 @@ $endpoint = $config->getValue( 'endpoint', DEMO_ENDPOINT);
 
 // test google maps and bing maps credentials
 $googleApiKeyNotSetWarning = $config->getValue( 'googleApiKey','')
-	?:"<li style='color: red'>WARNING: google maps api key not available (continue at your risk)</li>";
+	?'':"<li style='color: red'>WARNING: google maps api key not available (continue at your risk)</li>";
 $bingApiKeyNotSetWarning = $config->getValue( 'bingApiKey','')
-	?:"<li style='color: red' >WARNING: bing maps api key not available, bing maps will return errors</li>";
+	?'':"<li style='color: red' >WARNING: bing maps api key not available, bing maps will return errors</li>";
 
 // Enable Universal Analytics code
 GoogleAnalyticsEnabledRenderer::$UniversalAnalyticsId = $UA;
