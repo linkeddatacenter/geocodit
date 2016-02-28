@@ -1,9 +1,6 @@
 <?php
 require '../vendor/autoload.php';
 
-use BOTK\Context\Context;				// get config vars and other inputs
-use Geocodit\View\GoogleAnalyticsEnabledRenderer ;
-
 DEFINE('DEMO_ENDPOINT', 'https://hub1.linkeddata.center/demo');
 
 // search configs files in  in config and /etc/geocodit directories
@@ -14,8 +11,7 @@ if (! isset($_ENV['BOTK_CONFIGDIR'])) {
 		$_ENV['BOTK_CONFIGDIR'] = '/etc/geocodit';
 	}
 }
-$config = Context::factory()->ns('geocodit');
-$UA = $config->getValue( 'UA', '');
+$config = \BOTK\Context\Context::factory()->ns('geocodit');
 $penality = $config->getValue( 'penality',2);
 $endpoint = $config->getValue( 'endpoint', DEMO_ENDPOINT);
 
@@ -26,8 +22,7 @@ $bingApiKeyNotSetWarning = $config->getValue( 'bingApiKey','')
 	?'':"<li style='color: red' >WARNING: bing maps api key not available, bing maps will return errors</li>";
 
 // Enable Universal Analytics code
-GoogleAnalyticsEnabledRenderer::$UniversalAnalyticsId = $UA;
-$UASnippet=GoogleAnalyticsEnabledRenderer::GoogleAnalyticsSnippet();
+$UASnippet=\Geocodit\View\GoogleAnalyticsEnabledRenderer::GoogleAnalyticsSnippet($config->getValue( 'UA', ''));
 
 $passwordHint = ($endpoint==DEMO_ENDPOINT)?' (demo/demo)':'';
 
@@ -56,6 +51,7 @@ $passwordHint = ($endpoint==DEMO_ENDPOINT)?' (demo/demo)':'';
 			Service status:
 			<ul>
 				<li>knowledge base endpoint:  <?=$endpoint?></li>
+				<li>execution APIs penality:  <?=$penality?> sec.</li>
 				<?=$googleApiKeyNotSetWarning?>
 				<?=$bingApiKeyNotSetWarning?>
 			</ul>  
@@ -125,21 +121,22 @@ $passwordHint = ($endpoint==DEMO_ENDPOINT)?' (demo/demo)':'';
 	      
 	      <p>Credential required<?=$passwordHint?>.</p>
 	      <ul>
+	      		<li>View <a target="_blank" href="<?=$endpoint?>">Knowledge base</a> configuration. [<a target="_blank" href="kees.ttl">KEES file</a>].</li>
 	      		<li><a target="_blank" href="<?=$endpoint?>/table/gecodit:luoghi">Numeri civici</a></li>
 	      		<li><a target="_blank" href="<?=$endpoint?>/table/istat:comuni">Comuni</a></li>
 	      		<li><a target="_blank" href="<?=$endpoint?>/table/istat:provincie">Provincie</a></li>
 	      		<li><a target="_blank" href="<?=$endpoint?>/table/istat:regioni">Regioni</a></li>
-	      		<li>View <a target="_blank" href="<?=$endpoint?>/">Knowledge base configuration</a>.</li>
+	      		
 	      		<li>[<a target="_blank" href="<?=$endpoint?>/cpanel">more...</a>]</li>
 	      </ul>
 	   </div>
 	   <hr>
 	  <div>
-	  	<h2>Data gateways (from three stars data to RDF):</h2>
-	  	<p>These web resources translate CSV open data into RDF Linked Open Data:</p>
+	  	<h2>Linked data gateways:</h2>
+	  	<p>Some examples of web resources that translate CSV open data into GeocodIT Linked Open Data:</p>
 	      <ul>
-	      		<li><a href="gw/farmacie">Farmacie</a></li>
-	      		<li><a href="gw/parafarmacie">Parafarmacie</a></li>
+	      		<li><a href="gw/farmacie">Farmacie</a> (source Ministero della Salute)</li>
+	      		<li><a href="gw/parafarmacie">Parafarmacie</a> (source Ministero della Salute)</li>
 	      </ul>
 	   </div>
 		<hr>

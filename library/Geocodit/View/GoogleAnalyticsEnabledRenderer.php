@@ -23,8 +23,8 @@ class GoogleAnalyticsEnabledRenderer extends Standard {
 
     public static $UniversalAnalyticsId  = null;
 	
-	public static function GoogleAnalyticsSnippet(){
-		$UA = static::$UniversalAnalyticsId;
+	public static function GoogleAnalyticsSnippet($AnalyticsUA=null){
+		$UA = $AnalyticsUA?:static::$UniversalAnalyticsId;
 		return $UA
 			?"
 				<script>

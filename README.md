@@ -56,9 +56,9 @@ Even apache2 it is not a strong requirement, with few changes (mainly to web/.ht
 
 - Create and Login to a fresh ubunto box (phisical or virtual) 
 - Clone GeocodIT project in /opt/geocodit : `sudo cd /opt; git clone https://github.com/linkeddatacenter/geocodit.git`
-- Execute the install script `sudo /opt/gecodit/scripts/install.sh`.
-- Copy the config/geocodit.ini.dist file into /etc/geocodit/geocodit.ini (or geocodit.ini) and 
-    add your LinkedData.Center and Google Api credential. Be sure that geocodit.it is
+- Execute the install script `sudo /opt/gecodit/test/_support/install.sh`.
+- Copy the config/geocodit.ini.dist file into geocodit.ini and 
+    add your credentials. Be sure that geocodit.it is
     readable to the web server (i.e. www-data user).
 
 **IMPORTANT: GeocodIT uses your keys to access payed services, if you put it in a public server, consider to limit 
