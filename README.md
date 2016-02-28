@@ -1,9 +1,5 @@
 # GeocodIT project
-[![Build Status](https://img.shields.io/travis/linkeddatacenter/geocodit.svg?style=flat-square)](http://travis-ci.org/linkeddatacenter/geocodit)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/linkeddatacenter/geocodit.svg?style=flat-square)](https://scrutinizer-ci.com/g/linkeddatacenter/geocodit)
 [![Latest Version](https://img.shields.io/packagist/v/linkeddatacenter/geocodit.svg?style=flat-square)](https://packagist.org/packages/linkeddatacenter/geocodit)
-[![Total Downloads](https://img.shields.io/packagist/dt/linkeddatacenter/geocodit.svg?style=flat-square)](https://packagist.org/packages/linkeddatacenter/geocodit)
-[![License](https://img.shields.io/packagist/l/linkeddatacenter/geocodit.svg?style=flat-square)](https://packagist.org/packages/linkeddatacenter/geocodit)
 
 GeocodIT is a system that manages a [geocoding](https://en.wikipedia.org/wiki/Geocoding) knowledge base using W3C semantic web best practices and standards.
 
