@@ -90,7 +90,9 @@ Of course you can access SPARQL endpoint (e.g. https://hub1.linkeddata.center/de
 
 The geocoedr  enpoint will be available at <your server ip or FQDN>/api/geocode (e.g. http://geocodit.linkeddata.center/api)
 
-    geocode?q=*address*[&trust=*trust_profile*] : returns address geolocation using a gecoding profile optimization(default: cost).
+    geocode?q=address[&trust=trust_profile]
+
+It returns the address geolocation using a gecoding optimization.
 
 Available trust profiles:
 
@@ -111,7 +113,10 @@ Beside this you can trust on result a provider alone:
 ### Using benchmark API
 
 The benchmark  enpoint will be available at <your server ip or FQDN>/api/benchark (e.g. http://geocodit.linkeddata.center/api)
-    benchmark?q=*address* : compare the results of all supported geocoders.
+
+    benchmark?q=address
+    
+It compares the result of all supported geocoders.
     
 ### Using  gateways
 
@@ -125,7 +130,7 @@ Add following dependance to **composer.json** file in your project root:
 ```
     {
         "require": {
-            "linkeddatacenter/geocodit": "*"
+            "linkeddatacenter/geocodit": "dev-master"
         }
     }
 ```
@@ -133,7 +138,7 @@ Add following dependance to **composer.json** file in your project root:
 GeocodIT is a companion of [Geocoder](https://github.com/geocoder-php/Geocoder).
 
 It exposes two additional providers : geocodit and geocoditOSM, the first is a stand alone profiders that use knowledge base data for toponimy resolution,
-te second it is an extension of openstreetmap providers that enrich open street map algoritm wit some peculiar open data (mainly by istat).
+the second it is an extension of openstreetmap providers that enrich geocoder algoritm with some open data (mainly by istat).
 
 Choose the one that fits your need first. Let's say the `geocoditOSM` one is what
 you were looking for, so let's see how to use it. In the code snippet below,
@@ -150,7 +155,7 @@ $geocoder->geocode(...);
 
 ## Extending geocodit
 More or less you just have to find new data sources and design a proper ingestion policy to be added to knowledge base configuration file.
-In some case you will have to write a gateway to transform data to RDF. Use existing gateways as startin pont.
+In some case you will have to write a gateway to transform data to RDF. Use existing gateways as starting point.
 See the file [CONTRIBUTING.md] for some note about development environment.
 
 ## License and Authors

@@ -33,7 +33,7 @@ class GeocoderRenderer extends GoogleAnalyticsEnabledRenderer {
 	
     public static function geoJSONRenderer(Address $address) {
         static::setContentType('application/vnd.geo+json');	
-		$dumper = new \Geocoder\Dumper\GeoJSON();
+		$dumper = new \Geocoder\Dumper\GeoJson();
 		
 		return  $dumper->dump($address);
     }

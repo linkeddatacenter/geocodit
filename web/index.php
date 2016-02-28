@@ -93,8 +93,8 @@ $passwordHint = ($endpoint==DEMO_ENDPOINT)?' (demo/demo)':'';
 						<option>all</option>
 						<option>geocodit</option>
 						<option>geocoditOSM</option>
-						<option>google_map</option>
-						<option>bing_map</option>
+						<option>google_maps</option>
+						<option>bing_maps</option>
 						<option>openstreetmap</option>
 					</select>    	
 					<input type="submit" value="Try GeocodIT  geocoder">
