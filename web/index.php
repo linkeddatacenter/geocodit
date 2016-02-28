@@ -14,6 +14,7 @@ if (! isset($_ENV['BOTK_CONFIGDIR'])) {
 $config = \BOTK\Context\Context::factory()->ns('geocodit');
 $penality = $config->getValue( 'penality',2);
 $endpoint = $config->getValue( 'endpoint', DEMO_ENDPOINT);
+$defaultAddress = $config->getValue('defaultAddress','Via Montefiori 13, Esino Lario');
 
 // test google maps and bing maps credentials
 $googleApiKeyNotSetWarning = $config->getValue( 'googleApiKey','')
@@ -83,7 +84,7 @@ $passwordHint = ($endpoint==DEMO_ENDPOINT)?' (demo/demo)':'';
 	  	  	 <p>Geocoder API syntax: <code>api/geocode?q=<i>address to search</i>[&amp; trust=<i>provider choice</i>]</code>*. Try it yourself: </p>
 		    
 		      	<form style="text-indent: 50px;" action="api/geocode" method="get">
-	      			<code >api/geocode?q=</code><input size="30" type="search" name="q" value="Via Montefiori 13, Esino Lario">
+	      			<code >api/geocode?q=</code><input size="30" type="search" name="q" value="<?=$defaultAddress?>">
 	      			 <code >&amp;trust=</code><select name="trust">
 						<option>opendata</option>
 						<option>ms</option>
@@ -105,7 +106,7 @@ $passwordHint = ($endpoint==DEMO_ENDPOINT)?' (demo/demo)':'';
 	  	  	 <p>Benchmark API syntax: <code>api/benchmark?q=<i>address to search</i></code>*. Try it yourself: </p>
 		     
 		      	<form style="text-indent: 50px;" action="api/benchmark" method="get">
-	      			<code>api/benchmark?q=</code><input size="30" type="search" name="q" value="Via Montefiori 13, Esino Lario">  	
+	      			<code>api/benchmark?q=</code><input size="30" type="search" name="q" value="<?=$defaultAddress?>">  	
 					<input type="submit" value="Try GeocodIT benchmark">
 		      	</form>
   

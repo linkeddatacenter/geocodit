@@ -6,7 +6,7 @@
 
 
 ;; Supported toponim resolution profile (see README.MD): 
-;trust = "opensource"
+;trust = "opendata"
 
 ;; Enable google analytics: set ypur UA if you want to trace service usage (only http pages)
 ;; UA ="UA-XXXXXXX" 
