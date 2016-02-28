@@ -6,7 +6,7 @@ REPO="https://github.com/linkeddatacenter/$PROJECT.git"
 if [ ! -f /tmp/install.lock ]; then
 	apt-get update
 	echo "apt-get update done" > /tmp/install.lock
-	apt-get -y install git apache2 php5-common php5-curl libapache2-mod-php5 php5-cli curl php5-xdebug
+	apt-get -y install git apache2 php5-common php5-curl libapache2-mod-php5 php5-cli curl phpunit
 
 	curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 

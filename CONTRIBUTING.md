@@ -62,7 +62,7 @@ composer update
 Unit tests are performed through PHPUnit. To launch unit tests:
 
 ```shell
-vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-html test/unit/report
+phpunit --configuration phpunit.xml.dist --coverage-html test/unit/report
 
 Free testenv resources with:
 

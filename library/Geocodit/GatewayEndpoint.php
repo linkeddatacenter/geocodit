@@ -19,11 +19,6 @@ class GatewayEndpoint extends \BOTK\Core\EndPoint {
 	
 	protected function registerGateways() {
 		return array(
-		
-			 'dug'			=>  function() {
-			 	 return new Gateway\DUG('http://www.agenziaentrate.gov.it/wps/file/Nsilib/Nsi/Home/CosaDeviFare/Consultare+dati+catastali+e+ipotecari/Scambio+dati+catastali+e+cartografici+con+enti+o+PA/Portale+per+i+Comuni/Servizi+portale+dei+comuni/toponomastica/Elenco+DUG/Copia+di+DUG_VALIDE_16122014.xls');
-			 },
-			 
 			 'farmacie'		=>  function() {		 	
 			 	$gw= new Gateway\CSV('http://www.dati.salute.gov.it/imgs/C_17_dataset_5_download_itemDownload0_upFile.CSV'); 
 				return	$gw->setFieldsSelector( function($data) { return array( null, $data[2], $data[6], $data[18], $data[19]); } );

@@ -10,23 +10,6 @@
             "email": "enrico@LinkedData.Center"
         }
     ],
-	"repositories": [{
-	    "type": "package",
-	    "package": {
-	        "name": "PHPOffice/PHPExcel",
-	        "version": "1.8.1",
-	        "source": {
-	            "url": "https://github.com/PHPOffice/PHPExcel.git",
-	            "type": "git",
-	            "reference": "1.8.1"
-	        },
-	        "autoload": {
-	            "psr-0": {
-	                "PHPExcel": "Classes/"
-	            }
-	        }
-	    }
-	}],
     "require": {
         "php": ">=5.5.0",
         "botk/context": "~4.1",
@@ -34,8 +17,7 @@
         "botk/core": "~5.1",
         "easyrdf/easyrdf": "~0.9",
         "ml/json-ld": "*",
-        "willdurand/geocoder": "*",
-        "PHPOffice/PHPExcel": "1.8.*"
+        "willdurand/geocoder": "*"
     },
     "autoload": {
         "psr-4": {

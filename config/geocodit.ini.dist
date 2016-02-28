@@ -5,12 +5,11 @@
 ;penality=2
 
 
-;; Supported toponim resolution profile: 
-;; 	cost: try open street map then google maps then bing maps
-;;  quality: bing maps then google maps then open street
-;;  open: try open street 
-;profile = "cost"
+;; Supported toponim resolution profile (see README.MD): 
+;trust = "opensource"
 
+;; Enable google analytics: set ypur UA if you want to trace service usage (only http pages)
+;; UA ="UA-XXXXXXX" 
 
 ;; To use Google Geocoding api you need to get an API KEY:
 ;; https://developers.google.com/maps/documentation/geocoding/get-api-key
@@ -22,10 +21,11 @@
 ;bingApiKey ="Al8-uowD0BbdgcyeciQUPLP5fLdzj5hskyINFc-VnzN0sEcENzo.............."
 
 
-
 ;; To use Geocodit geocoder you need LinkedData.Center credential:
-;kid = "demo"
+;kbid = "demo"
 ;secretKey = "demo"
+;endpoint= "https://hub1.linkeddata.center/demo"
 
 ;; This is used by geocode api if no paramether is specified
-; defaultAddress = 'Via Montefiori 13, 23825 Esino Lario'
+; defaultAddress = 'Via Montefiori 13, Esino Lario'
+

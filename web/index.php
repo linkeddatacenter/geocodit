@@ -4,6 +4,8 @@ require '../vendor/autoload.php';
 use BOTK\Context\Context;				// get config vars and other inputs
 use Geocodit\View\GoogleAnalyticsEnabledRenderer ;
 
+DEFINE('DEMO_ENDPOINT', 'https://hub1.linkeddata.center/demo');
+
 // search configs files in  in config and /etc/geocodit directories
 if (! isset($_ENV['BOTK_CONFIGDIR'])) {
 	if ( file_exists( __DIR__. '/../../config/geocodit.ini')) {
@@ -15,14 +17,19 @@ if (! isset($_ENV['BOTK_CONFIGDIR'])) {
 $config = Context::factory()->ns('geocodit');
 $UA = $config->getValue( 'UA', '');
 $penality = $config->getValue( 'penality',2);
+$endpoint = $config->getValue( 'endpoint', DEMO_ENDPOINT);
+
+// test google maps and bing maps credentials
 $googleApiKeyNotSetWarning = $config->getValue( 'googleApiKey','')
-	?:"<p>WARNING: google maps api key not available (continue at your risk)</p>";
+	?:"<li style='color: red'>WARNING: google maps api key not available (continue at your risk)</li>";
 $bingApiKeyNotSetWarning = $config->getValue( 'bingApiKey','')
-	?:"<p>WARNING: bing maps api key not available, bing maps will return errors</p>";
+	?:"<li style='color: red' >WARNING: bing maps api key not available, bing maps will return errors</li>";
 
 // Enable Universal Analytics code
 GoogleAnalyticsEnabledRenderer::$UniversalAnalyticsId = $UA;
 $UASnippet=GoogleAnalyticsEnabledRenderer::GoogleAnalyticsSnippet();
+
+$passwordHint = ($endpoint==DEMO_ENDPOINT)?' (demo/demo)':'';
 
 ?>
 <!DOCTYPE html>
@@ -45,12 +52,20 @@ $UASnippet=GoogleAnalyticsEnabledRenderer::GoogleAnalyticsSnippet();
 		<p>A system that manages italian geocoding knowledge base according W3C semantic web best practices and standards. 
 			<a href ="https://github.com/linkeddatacenter/geocodit" target="_blank" >View on GitHub</a>
 			</p>
-		<div style="color: red"> <?=$googleApiKeyNotSetWarning?><?=$bingApiKeyNotSetWarning?> </div> 
+		<div >
+			Service status:
+			<ul>
+				<li>knowledge base endpoint:  <?=$endpoint?></li>
+				<?=$googleApiKeyNotSetWarning?>
+				<?=$bingApiKeyNotSetWarning?>
+			</ul>  
+		</div> 
 	    <nav>
 	       <div >
 	        <dl>
 				<dt>Help resources:</dt>
 				<dd><a href ="http://linkeddata.center/help/business/cases/geocodit-v1" target="_blank">The GeocodIT case study article </a></dd>
+				<dd><a href ="profile.html" target="_blank">GeocodIT language profile</a></dd>
 			</dl>
 	       </div>
 	    </nav>
@@ -69,11 +84,11 @@ $UASnippet=GoogleAnalyticsEnabledRenderer::GoogleAnalyticsSnippet();
 	   
 		<div >
 			<br>
-	  	  	 <p>Syntax: <code>api/geocode?q=<i>address to search</i>[&amp; trust=<i>provider choice</i>]</code>. Try it yourself: </p>
-		     <code style="text-indent: 50px;">
-		      	<form action="api/geocode" method="get">
-	      			api/geocode?q=<input size="40" type="search" name="q" value="Via Montefiori 13, Esino Lario">
-	      			&amp; trust=<select name="trust">
+	  	  	 <p>Geocoder API syntax: <code>api/geocode?q=<i>address to search</i>[&amp; trust=<i>provider choice</i>]</code>*. Try it yourself: </p>
+		    
+		      	<form style="text-indent: 50px;" action="api/geocode" method="get">
+	      			<code >api/geocode?q=</code><input size="30" type="search" name="q" value="Via Montefiori 13, Esino Lario">
+	      			 <code >&amp;trust=</code><select name="trust">
 						<option>opendata</option>
 						<option>ms</option>
 						<option>google</option>
@@ -85,56 +100,43 @@ $UASnippet=GoogleAnalyticsEnabledRenderer::GoogleAnalyticsSnippet();
 						<option>bing_map</option>
 						<option>openstreetmap</option>
 					</select>    	
-					<input type="submit" value="Try geocoder">
+					<input type="submit" value="Try GeocodIT  geocoder">
 		      	</form>
-		     </code>
+		     
 		</div>
 		<div>
-
-	  	  	 <p>Syntax: <code>api/benchmark?q=<i>address to search</i></code>. Try it yourself: </p>
-		     <code style="text-indent: 50px;">
-		      	<form  action="api/benchmark" method="get">
-	      			api/benchmark?q=<input size="40" type="search" name="q" value="Via Montefiori 13, Esino Lario">  	
-					<input type="submit" value="Try geocoder">
+			<br>
+	  	  	 <p>Benchmark API syntax: <code>api/benchmark?q=<i>address to search</i></code>*. Try it yourself: </p>
+		     
+		      	<form style="text-indent: 50px;" action="api/benchmark" method="get">
+	      			<code>api/benchmark?q=</code><input size="30" type="search" name="q" value="Via Montefiori 13, Esino Lario">  	
+					<input type="submit" value="Try GeocodIT benchmark">
 		      	</form>
-		      </code>
+  
 		</div>
-				
-	      <p>For better results, address should be expressed in the form: "&lt;Denominazione Urbanistica Generica (DUG)&gt; &lt;Denominazione Urbanistica Ufficiale(DUF)&gt; &lt;Numero civico&gt; , &lt;City&gt; " </p>
+		  <br>	
+	      <p>* For better results, address should be expressed in the form: "&lt;Denominazione Urbanistica Generica (DUG)&gt; &lt;Denominazione Urbanistica Ufficiale(DUF)&gt; &lt;Numero civico&gt; , &lt;City&gt; " </p>
 
 	   </div>
 	   
 	  <div>
-	  	<script>
-	  		function myopen(link,local){
-	  			if( local) {
-	  				url = link;
-	  			} else {
-	  				url = document.getElementById('endpoint').value + link;
-	  			}
-	  			newWindow =window.open(url, '_blank');
-	  			newWindow.focus();
-	  		}
-	  	</script>
 	  	<hr>
 	  	<h2>Knowledge services (i.e. data APIs) :</h2>
-	  	 <p>Enter your LinkedData.Center knowledge base endpoint here:  <input id='endpoint', size="40" value="https://hub1.linkeddata.center/demo"> . 
-	  	 	Authorization required (use demo/demo)</p>
+	      
+	      <p>Credential required<?=$passwordHint?>.</p>
 	      <ul>
-	      		<li>View <a onclick="myopen('cpane/config', true);">Knowledge base configuration</a></li>
-	      </ul>
-	      <p>Here are some data examples:</p>
-	      <ul>
-	      		<li><a onclick="myopen('/table/gecodit:luoghi');">Numeri civici</a></li>
-	      		<li><a onclick="myopen('/table/istat:comuni');">Comuni</a></li>
-	      		<li><a onclick="myopen('/table/istat:provincie');">Provincie</a></li>
-	      		<li><a onclick="myopen('/table/istat:regioni');">Regioni</a></li>
-	      		<li>[<a onclick="myopen('/queries');">more...</a>]</li>
+	      		<li><a target="_blank" href="<?=$endpoint?>/table/gecodit:luoghi">Numeri civici</a></li>
+	      		<li><a target="_blank" href="<?=$endpoint?>/table/istat:comuni">Comuni</a></li>
+	      		<li><a target="_blank" href="<?=$endpoint?>/table/istat:provincie">Provincie</a></li>
+	      		<li><a target="_blank" href="<?=$endpoint?>/table/istat:regioni">Regioni</a></li>
+	      		<li>View <a target="_blank" href="<?=$endpoint?>/">Knowledge base configuration</a>.</li>
+	      		<li>[<a target="_blank" href="<?=$endpoint?>/cpanel">more...</a>]</li>
 	      </ul>
 	   </div>
 	   <hr>
 	  <div>
 	  	<h2>Data gateways (from three stars data to RDF):</h2>
+	  	<p>These web resources translate CSV open data into RDF Linked Open Data:</p>
 	      <ul>
 	      		<li><a href="gw/farmacie">Farmacie</a></li>
 	      		<li><a href="gw/parafarmacie">Parafarmacie</a></li>

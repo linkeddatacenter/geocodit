@@ -5,6 +5,8 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix ter: <http://datiopen.istat.it/odi/ontologia/territorio/> .
+@prefix geocodit: <http://linkedddata.center/project/geocodit/1.0.0/web/kees.ttl#> .
+
 
 [] kees:includes <http://linkeddata.center/project/kees/1.1.19/v1/introspection.ttl> .
 
@@ -26,19 +28,7 @@
 	dct:isVersionOf <http://linkeddata.center/project/geocodit/1.0.0/pub/kees.ttl> ;
 	dct:conformsTo <http://geocodit.linkeddata.center/profile.html> ;
 	dct:subject <http://dbpedia.org/resource/Geocoding>, <http://dbpedia.org/resource/Italy> ;
-	dct:license <http://creativecommons.org/licenses/by-nc-sa/4.0/>;
-	foaf:primaryTopic [ a kees:KnowledgeBase;
-		kees:hasAccrualPolicy 
-			_:linkedgeodataAmenities, 
-			_:farmacie,
-			_:parafarmacie,
-			_:wikidataZips,
-			_:istatDug ,
-			_:istatCentriAbitati,
-			_:istatComuni,
-			_:istatProvince,
-			_:istatRegioni
-	]
+	dct:license <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 .
 
 # here some syntactic sugar:
@@ -51,7 +41,7 @@ _:tryFourTimes kees:hasResilience 4 .
 # linkedgeodata amenities (not alwais in OSM)
 ##############################################################################
 
-_:linkedgeodataAmenities a kees:SparqlIngestion ;
+geocodit:policy_linkedgeodataAmenities a kees:SparqlIngestion ;
 	kees:queryName <urn:linkedgeodata:civic> ;
 	kees:sparqlEndpoint <http://linkedgeodata.org/sparql> ;
 	kees:constructQuery """
@@ -79,30 +69,30 @@ _:linkedgeodataAmenities a kees:SparqlIngestion ;
 		} # No order because openlink viruoso sort till 10000 items, anyway sequence seems to be guarantee
 	""" ;
 	kees:pageSize 1500; kees:toPage 100 ; 
-	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:montly ;
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:montly 
 .
 
 ##############################################################################
 # gateway
 ##############################################################################
 
-_:farmacie  
+geocodit:policy_farmacie  
 	rdfs:comment "Elenco delle farmacie in Italia da Ministero della salute (via GW)"@it ;
 	kees:source <http://geocodit.linkeddata.center/gw/farmacie> ;
-	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly 
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:montly 
 .
 
-_:parafarmacie 
+geocodit:policy_parafarmacie 
 	rdfs:comment "Elenco delle farmacie in Italia da Ministero della salute (via GW)"@it ; 
 	kees:source <http://geocodit.linkeddata.center/gw/parafarmacie> ; 
-	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly 
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:montly 
 .
 
 ##############################################################################
 # Using Wikidata to enrich istat data
 ##############################################################################
 
-_:wikidataZips  a kees:SparqlIngestion ;
+geocodit:policy_wikidataZips  a kees:SparqlIngestion ;
 	rdfs:comment "Get city zipcodes from wikidata"@en ;
 	kees:queryName <urn:wikidata:cap> ;
 	kees:sparqlEndpoint <http://query.wikidata.org/sparql> ;
@@ -121,20 +111,15 @@ _:wikidataZips  a kees:SparqlIngestion ;
 		} ORDER BY ?wikidataUri
 	""" ;
 	kees:pageSize 5000; kees:toPage 10 ;
-	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:montly ;
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:montly 
 .
 
 #######################################################
 # Administrative data from ISTAT
 #######################################################
 
-_:istatDug
-	rdfs:comment "Elenco Denominazione Urbanistica Generica validatao da ISTAT (via GW)"@it ;
-	kees:source <http://geocodit.linkeddata.center/gw/dug> ;
-	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly 
-.
 
-_:istatCentriAbitati  a kees:SparqlIngestion ;
+geocodit:policy_istatCentriAbitati  a kees:SparqlIngestion ;
 	rdfs:comment "Elenco ufficialie delle località nei comuni" ;
 	kees:queryName <urn:istat:centriabitati> ;
 	kees:sparqlEndpoint <http://datiopen.istat.it/sparql/oracle> ;
@@ -155,11 +140,11 @@ _:istatCentriAbitati  a kees:SparqlIngestion ;
 	     } ORDER BY ?uriIstat
 	""" ;
 	kees:pageSize 3000; kees:toPage 200 ;
-	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:montly ;
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly 
 .
 
 
-_:istatComuni  a kees:SparqlIngestion ;
+geocodit:policy_istatComuni  a kees:SparqlIngestion ;
 	kees:queryName <urn:istat:comuni> ;
 	kees:sparqlEndpoint <http://datiopen.istat.it/sparql/oracle> ;
 	kees:constructQuery """
@@ -184,10 +169,10 @@ _:istatComuni  a kees:SparqlIngestion ;
 	     } ORDER BY ?uriIstat
 	""" ;
 	kees:pageSize 2000; kees:toPage 20 ;
-	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:montly ;
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly 
 .
 
-_:istatProvince a kees:SparqlIngestion ;
+geocodit:policy_istatProvince a kees:SparqlIngestion ;
 	kees:queryName <urn:istat:province> ;
 	kees:sparqlEndpoint <http://datiopen.istat.it/sparql/oracle>  ;
 	kees:constructQuery """
@@ -205,11 +190,11 @@ _:istatProvince a kees:SparqlIngestion ;
 	            ter:haNome ?nomeProvincia         
 	     } ORDER BY ?provincia
 	""" ;
-	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly ;
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly
  .
 	
 
-_:istatRegioni  a kees:SparqlIngestion ;
+geocodit:policy_istatRegioni  a kees:SparqlIngestion ;
 	kees:queryName <urn:istat:regioni> ;
 	kees:sparqlEndpoint <http://datiopen.istat.it/sparql/oracle>  ;
 	kees:constructQuery """
@@ -217,14 +202,22 @@ _:istatRegioni  a kees:SparqlIngestion ;
 	    CONSTRUCT { ?regione a ter:REG ; ter:haNome ?nomeRegione; ter:haCodIstat ?codIstatRegione } 
 	    WHERE { ?regione a ter:REG ; ter:haNome ?nomeRegione; ter:haCodIstat ?codIstatRegione }
 	""" ;
-	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly ;
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly
  .
 
 
 #######################################################
+# Private data 	example loaded from a gist
+#######################################################
+
+geocodit:policy_example kees:source <https://gist.githubusercontent.com/ecow/6f265484b08cf61faed3/raw/b2791d36fac8134ada2bff66d46e6d2a001d45a4/gistfile1.txt>;
+	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly
+.
+
+#######################################################
 # Reasoner axioms
 #######################################################
-[]  rdfs:comment "Generate a search key for geocoder" ;
+geocodit:rule_makeSearchKey rdfs:comment "Generate a search key for geocoder" ;
 	kees:ruleText """
 		PREFIX gco: <http://linkeddata.center/ontology/geocodit/v1#>
 	    PREFIX ter: <http://datiopen.istat.it/odi/ontologia/territorio/>
@@ -247,7 +240,7 @@ _:istatRegioni  a kees:SparqlIngestion ;
 # Examples of Sparql queries
 ##########################################################
 
-[] a kees:Table ;
+geocodit:query_luoghi a kees:Table ;
 	dct:identifier "gecodit:luoghi" ;
 	rdfs:label "Indicazioni geografiche" ;
 	rdfs:comment "Indicazioni geografiche del territorio.  (Accetta i parametri LIMIT=100 OFFSET=0)";
@@ -273,7 +266,7 @@ _:istatRegioni  a kees:SparqlIngestion ;
 .
 
 
-[] a kees:Table ;
+geocodit:query_centriabitati a kees:Table ;
 	dct:identifier "istat:centriabitati" ;
 	rdfs:label "Località italiane"@it ;
 	rdfs:comment "Tutte le località italiane. ( Accetta i parametri LIMIT=100 OFFSET=0) "@it ;
@@ -293,7 +286,7 @@ _:istatRegioni  a kees:SparqlIngestion ;
 	"""
 .
 
-[] a kees:Table ;
+geocodit:query_comuni a kees:Table ;
 	dct:identifier "istat:comuni" ;
 	rdfs:label "Comuni_italiani" ;
 	rdfs:comment "Tutti i comuni italiani.  ( Accetta i parametri LIMIT=100 OFFSET=0)";
@@ -320,7 +313,7 @@ _:istatRegioni  a kees:SparqlIngestion ;
 	"""
 .
 
-[] a kees:Table ;
+geocodit:query_provincie a kees:Table ;
 	dct:identifier "istat:provincie" ;
 	rdfs:label "Provincie_italiane"@it ;
 	rdfs:comment "Tutte le provincie italiane."@it ;
@@ -341,7 +334,7 @@ _:istatRegioni  a kees:SparqlIngestion ;
 	"""
 .
 
-[] a kees:Table ;
+geocodit:query_regioni a kees:Table ;
 	dct:identifier "istat:regioni" ;
 	rdfs:label "Regioni_italiane"@it ;
 	rdfs:comment "Tutte le regioni italiane."@it ;
@@ -356,7 +349,7 @@ _:istatRegioni  a kees:SparqlIngestion ;
 .
 
 
-[] a kees:Table ;
+geocodit:query_cap a kees:Table ;
 	dct:identifier "cap" ;
 	rdfs:label "Codici avviamento postale"@it ;
 	rdfs:comment "Accetta i parametri LIMIT(dafault=100) OFFSET (default=0)"@it ;
@@ -371,18 +364,7 @@ _:istatRegioni  a kees:SparqlIngestion ;
 	"""
 .
 
-[] a kees:Table ;
-	dct:identifier "istat:dug" ;
-	rdfs:label "Elenco denominazioni urbanistiche generiche"@it ;
-	rdfs:comment "Denominazioni urbanistiche generiche valdate da Istat"@it ;
-	kees:queryText """
-		PREFIX  skos: <http://www.w3.org/2004/02/skos/core#> 
-		SELECT ?dug FROM <http://geocodit.linkeddata.center/gw/dug> WHERE { ?dugUri skos:prefLabel ?dug }
-	"""
-.
-
-
-[] a kees:Table ;
+geocodit:query_links a kees:Table ;
 	dct:identifier "geocodit:links" ;
 	rdfs:label "Linked set"@en ;
 	rdfs:comment "Returns linke data LIMIT(default=100) OFFSET (default=0)"@en ;
