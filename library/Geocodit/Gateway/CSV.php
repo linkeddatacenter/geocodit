@@ -18,6 +18,29 @@ namespace Geocodit\Gateway;
 class CSV extends AbstractGateway {
 	
 	protected $selector = null; 
+	protected $delimiter = ';';
+	protected $enclosure = '"';
+	protected $escape ='\\';
+	
+	
+	public function setDelimiter( $delimiter=';' ){
+		$this->delimiter = $delimiter;
+		return $this ;
+	}	
+	
+	
+	public function setEnclosure( $enclosure='"' ){
+		$this->enclosure = $enclosure;
+		return $this ;
+	}	
+	
+	
+	public function setEscape( $escape='\\' ){
+		$this->escape = $escape;
+		return $this ;
+	}	
+	
+	
 	
 	/**
 	 * $function is a closure function that get a data array (a row readed by fgetcsv) and returns an array of 5 values:
@@ -55,10 +78,11 @@ class CSV extends AbstractGateway {
 			
 	    // loop through the file line-by-line
 	    $i=0; $lastSeenData= '';
-	    while(($data = fgetcsv($csvStream, 2000 , ';')) !== false) {
+	    while(($data = fgetcsv($csvStream, 2000 , $this->delimiter,$this->enclosure, $this->escape)) !== false) {
 	    	$i++;
 	    	$selector =  $this->selector;
 			$extractedData = $selector($data);
+			if (!is_array($extractedData)) continue;
 			$uniqueID = md5(implode(',', $extractedData));
 			// qucik and dirty way to remove subsequent duplicates
 			if($uniqueID==$lastSeenData) continue;
@@ -91,11 +115,15 @@ class CSV extends AbstractGateway {
 
 
 	public function getStream(){
-		if(!($input = fopen($this->getSource(), 'r'))) { throw new \Exception("Error Processing Request", 404); }
-
-		$output = $this->trasform($input);
-		fclose($input);
-		
+		try {
+			$input = fopen($this->getSource(), 'r');
+	
+			$output = $this->trasform($input);
+			fclose($input);			
+		} catch (\Exception $e) {
+			throw new \Exception($e->getMessage(), 404); 
+		}
+	
 		return $output;
 	}
 	

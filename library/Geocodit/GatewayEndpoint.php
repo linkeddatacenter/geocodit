@@ -18,15 +18,16 @@ namespace Geocodit;
 class GatewayEndpoint extends \BOTK\Core\EndPoint {
 	
 	protected function registerGateways() {
+		// CSV $cap, $civico, $odonimo, $idComune, $latitude, $longitude
 		return array(
 			 'farmacie'		=>  function() {		 	
-			 	$gw= new Gateway\CSV('http://www.dati.salute.gov.it/imgs/C_17_dataset_5_download_itemDownload0_upFile.CSV'); 
-				return	$gw->setFieldsSelector( function($data) { return array( null, null, $data[2], $data[6], $data[18], $data[19]); } );
+			 	return	Gateway\CSV::factory('http://www.dati.salute.gov.it/imgs/C_17_dataset_5_download_itemDownload0_upFile.CSV') 
+					->setFieldsSelector( function($data) { return array( null, null, $data[2], $data[6], $data[18], $data[19]); } );
 			 },
 			 
 			 'parafarmacie'	=>  function() {		 	
-			 	$gw= new Gateway\CSV('http://www.dati.salute.gov.it/imgs/C_17_dataset_7_download_itemDownload0_upFile.CSV'); 
-				return	$gw->setFieldsSelector( function($data) { return array(null,  null, $data[2], $data[5], $data[14], $data[15]); } );
+			 	return	Gateway\CSV::factory('http://www.dati.salute.gov.it/imgs/C_17_dataset_7_download_itemDownload0_upFile.CSV') 
+					->setFieldsSelector( function($data) { return array(null,  null, $data[2], $data[5], $data[14], $data[15]); } );
 			 },
 		);
 	}

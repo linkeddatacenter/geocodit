@@ -15,19 +15,32 @@
 
 namespace Geocodit\Gateway;
 
-abstract class AbstractGateway implements GatewayInterface {
-	protected  $source;
+class ZippedCSV extends CSV {
+	protected $path='';
 	
-    public function __construct($source) {
-		$this->source = $source;
-    }
-	
-	public static function factory($source){
-		return new static($source);
+	public function setPath($path){
+		$this->path=$path;
+		return $this;
 	}
-	
 
-	public function getSource(){ return $this->source;}
-	abstract public function getStream();
+
+	public function getStream(){
+		
+		try {
+			$tmpfname = tempnam(sys_get_temp_dir(), 'zip');
+			copy($this->getSource(),$tmpfname);
+			
+			$input = fopen("zip://$tmpfname#".$this->path, 'r'); 
+			$output = $this->trasform($input);
+			unlink($tmpfname);
+			fclose($input);			
+		} catch (\Exception $e) {
+			@unlink($tmpfname);
+			throw new \Exception($e->getMessage(), 404); 
+		}
+			
+		return $output;
+	}
+
 	
 } //END
