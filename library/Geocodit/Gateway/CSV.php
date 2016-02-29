@@ -30,51 +30,73 @@ class CSV extends AbstractGateway {
 		return $this ;
 	}
 	
-
-
-	public function getStream(){
+	
+	/**
+	 * Trasform an  csv stream into a geocodit rdf stream
+	 */
+	public function trasform($csvStream){
 		
-		$source = $this->getSource();
+		$csvMetadata = stream_get_meta_data ($csvStream );
+		$source = $csvMetadata['uri'];
 		
-		// open input stream
-		if(!($handle = fopen($source, 'r'))) { throw new \Exception("Error Processing Request", 404); }
+		$rdfStream = tmpfile();
 		
 		//initialize output stream
-		$stream = tmpfile();
-		fwrite($stream, "# Source: $source
-@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+		fwrite($rdfStream, "@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
 @prefix gco: <http://linkeddata.center/ontology/geocodit/v1#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix : <#> .
+
+<> dct:source <$source> .
 ");		
 				
 	    // get the first row, which contains the column-titles
-	    $header = fgetcsv($handle);		
+	    $header = fgetcsv($csvStream);		
 			
 	    // loop through the file line-by-line
-	    $i=0;
-	    while(($data = fgetcsv($handle, 2000 , ';')) !== false) {
+	    $i=0; $lastSeenData= '';
+	    while(($data = fgetcsv($csvStream, 2000 , ';')) !== false) {
 	    	$i++;
 	    	$selector =  $this->selector;
-			list ($civico, $odonimo, $idComune, $latitude, $longitude ) = 	$selector($data);
+			$extractedData = $selector($data);
+			$uniqueID = md5(implode(',', $extractedData));
+			// qucik and dirty way to remove subsequent duplicates
+			if($uniqueID==$lastSeenData) continue;
+			$lastSeenData = $uniqueID;
+			list ($cap, $civico, $odonimo, $idComune, $latitude, $longitude ) = $extractedData;
 
 			// $idComune can be the istat code or a name, in this case must be normalized
 			$encodedIdComune = GwHelpers::encodeForUri($idComune);
 			$civicoProp = $civico?'gco:haNumeroCivico "'.GwHelpers::quote($civico).'" ;':'';
+			$capProp = $cap?'gco:cap "'.GwHelpers::quote($cap).'" ;':'';
 			
-			fwrite( $stream, "
-<$source#$i> a gco:Luogo ;
+			fwrite( $rdfStream, "
+:$uniqueID	 a gco:Luogo ;
+	dct:identifier \"$i\" ;
 	gco:haComune <urn:geocodit:comune:$encodedIdComune>  ;
+	$capProp
 	$civicoProp
 	gco:haToponimoStradale \"".GwHelpers::quote($odonimo)."\" ;
 	geo:lat ".GwHelpers::toFloat($latitude)." ;
 	geo:long ".GwHelpers::toFloat($longitude)." 
 .");
 		}
-	    fclose($handle);
+
 		
 		// rewind and return output stream
-		rewind($stream);		  
-		return $stream;		
+		rewind($rdfStream);
+		return $rdfStream;		
+	}
 
+
+
+	public function getStream(){
+		if(!($input = fopen($this->getSource(), 'r'))) { throw new \Exception("Error Processing Request", 404); }
+
+		$output = $this->trasform($input);
+		fclose($input);
+		
+		return $output;
 	}
 	
 } //END
