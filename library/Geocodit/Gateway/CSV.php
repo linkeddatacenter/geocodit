@@ -88,8 +88,6 @@ class CSV extends AbstractGateway {
 			} catch (\Exception $e) {
 			    continue; 
 			}
-			// silent drop malformed fields
-			if( !$odonimo || !$idComune || !is_numeric($latitude) || !is_numeric($longitude)) continue; 
 			
 			// quick and dirty way to remove subsequent duplicates
 			$uniqueID = md5(implode(',', $extractedData));
@@ -97,6 +95,9 @@ class CSV extends AbstractGateway {
 			
 			
 			$lastSeenData = $uniqueID;						
+
+			// silent drop malformed fields
+			if( !$odonimo || !$idComune || !$latitude || !$longitude) continue; 
 
 			// data cleansing
 			$encodedIdComune = GwHelpers::encodeForUri($idComune);
