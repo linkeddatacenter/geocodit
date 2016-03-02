@@ -43,10 +43,9 @@ class CSV extends AbstractGateway {
 	
 	
 	/**
-	 * $function is a closure function that get a data array (a row readed by fgetcsv) and returns an array of 5 values:
-	 * ($civico, $odonimo, $idComune, $latitude, $longitude ). 
-	 * 		$civico can be null
-	 * 		$idComune is the comune name or istat code
+	 * $function is a closure function that get a data array (a row readed by fgetcsv) and returns mandatory an array of 6 values:
+	 * 		$cap (can be null), $civico(can be null), $odonimo, $idComune, $latitude, $longitude. 
+	 * 		$idComune cab be ae comune name or an istat code
 	 */
 	public function setFieldsSelector( $function ){
 		$this->selector = $function;
@@ -81,18 +80,33 @@ class CSV extends AbstractGateway {
 	    while(($data = fgetcsv($csvStream, 2000 , $this->delimiter,$this->enclosure, $this->escape)) !== false) {
 	    	$i++;
 	    	$selector =  $this->selector;
-			$extractedData = $selector($data);
-			if (!is_array($extractedData)) continue;
+			
+			try {
+			   	$extractedData = $selector($data);
+			} catch (\Exception $e) {
+			    throw new \Exception("Error processing line $i ".print_r($data,true)." Extracting : ".print_r($extractedData,true).' returned error '.$e->getMessage(), 400); 
+			}
+						
+			// silent drop malformed records
+			if (!is_array($extractedData) || count($extractedData)!=6) continue;
+			
+			// quick and dirty way to remove subsequent duplicates
 			$uniqueID = md5(implode(',', $extractedData));
-			// qucik and dirty way to remove subsequent duplicates
 			if($uniqueID==$lastSeenData) continue;
 			$lastSeenData = $uniqueID;
+			
+			//
 			list ($cap, $civico, $odonimo, $idComune, $latitude, $longitude ) = $extractedData;
+			
+			// silent drop malformed fields
+			if( !$odonimo || !$idComune || !is_numeric($latitude) || !is_numeric($longitude)) continue; 
 
 			// $idComune can be the istat code or a name, in this case must be normalized
 			$encodedIdComune = GwHelpers::encodeForUri($idComune);
 			$civicoProp = $civico?'gco:haNumeroCivico "'.GwHelpers::quote($civico).'" ;':'';
 			$capProp = $cap?'gco:cap "'.GwHelpers::quote($cap).'" ;':'';
+
+
 			
 			fwrite( $rdfStream, "
 :$uniqueID	 a gco:Luogo ;
@@ -121,7 +135,7 @@ class CSV extends AbstractGateway {
 			$output = $this->trasform($input);
 			fclose($input);			
 		} catch (\Exception $e) {
-			throw new \Exception($e->getMessage(), 404); 
+			throw new \Exception($e->getMessage(), 400); 
 		}
 	
 		return $output;
