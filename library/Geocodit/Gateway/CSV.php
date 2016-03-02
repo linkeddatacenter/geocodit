@@ -81,33 +81,29 @@ class CSV extends AbstractGateway {
 	    	$i++;
 	    	$selector =  $this->selector;
 			
+			// silent drop malformed records
 			try {
 			   	$extractedData = $selector($data);
+				list ($cap, $civico, $odonimo, $idComune, $latitude, $longitude ) = $extractedData;
 			} catch (\Exception $e) {
-			    throw new \Exception("Error processing line $i ".print_r($data,true)." Extracting : ".print_r($extractedData,true).' returned error '.$e->getMessage(), 400); 
+			    continue; 
 			}
-						
-			// silent drop malformed records
-			if (!is_array($extractedData) || count($extractedData)!=6) continue;
+			// silent drop malformed fields
+			if( !$odonimo || !$idComune || !is_numeric($latitude) || !is_numeric($longitude)) continue; 
 			
 			// quick and dirty way to remove subsequent duplicates
 			$uniqueID = md5(implode(',', $extractedData));
 			if($uniqueID==$lastSeenData) continue;
-			$lastSeenData = $uniqueID;
 			
-			//
-			list ($cap, $civico, $odonimo, $idComune, $latitude, $longitude ) = $extractedData;
 			
-			// silent drop malformed fields
-			if( !$odonimo || !$idComune || !is_numeric($latitude) || !is_numeric($longitude)) continue; 
+			$lastSeenData = $uniqueID;						
 
-			// $idComune can be the istat code or a name, in this case must be normalized
+			// data cleansing
 			$encodedIdComune = GwHelpers::encodeForUri($idComune);
 			$civicoProp = $civico?'gco:haNumeroCivico "'.GwHelpers::quote($civico).'" ;':'';
 			$capProp = $cap?'gco:cap "'.GwHelpers::quote($cap).'" ;':'';
-
-
 			
+			// write rdf data
 			fwrite( $rdfStream, "
 :$uniqueID	 a gco:Luogo ;
 	dct:identifier \"$i\" ;
