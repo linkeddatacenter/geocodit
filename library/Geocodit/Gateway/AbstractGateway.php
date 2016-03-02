@@ -26,7 +26,6 @@ abstract class AbstractGateway implements GatewayInterface {
 		return new static($source);
 	}
 	
-
 	public function getSource(){ return $this->source;}
 	abstract public function getStream();
 	
