@@ -4,12 +4,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+### Added
+
+- refactoring of CSV for better error management
+
 ## 1.1.0
 
 ### Added
 
-- support to cap in CSV gateway
-- refactoring of CSV
+- support to cap in CSV gateway 
+- refactoring of CSV 
 
 ## 1.0.0
 
