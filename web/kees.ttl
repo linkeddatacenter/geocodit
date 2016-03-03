@@ -83,7 +83,7 @@ geocodit:policy_farmacie
 .
 
 geocodit:policy_parafarmacie 
-	rdfs:comment "Elenco delle farmacie in Italia da Ministero della salute (via GW)"@it ; 
+	rdfs:comment "Elenco delle parafarmacie in Italia da Ministero della salute (via GW)"@it ; 
 	kees:source <http://geocodit.linkeddata.center/gw/parafarmacie> ; 
 	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:montly 
 .
