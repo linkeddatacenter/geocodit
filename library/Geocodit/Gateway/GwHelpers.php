@@ -33,8 +33,18 @@ class GwHelpers {
 		return floatval($str);
     }
 	
-    public static  function quote($str) {            
-		return  str_replace('"','\"',utf8_encode($str));
+    public static  function quote($str,$langOrType='') {
+    	// set to utf8
+		$str = utf8_encode($str);
+		
+    	// change  all backslash into slash
+    	$str =  str_replace('\\', '/', utf8_encode($str));
+		
+		//escape double quotes in string
+		$str = str_replace('"','\"',$str);
+		
+		// return quoted string 
+		return  '"'.$str.'"'.$langOrType;
     }
 
 	

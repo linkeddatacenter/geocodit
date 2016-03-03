@@ -101,8 +101,8 @@ class CSV extends AbstractGateway {
 
 			// data cleansing
 			$encodedIdComune = GwHelpers::encodeForUri($idComune);
-			$civicoProp = $civico?'gco:haNumeroCivico "'.GwHelpers::quote($civico).'" ;':'';
-			$capProp = $cap?'gco:cap "'.GwHelpers::quote($cap).'" ;':'';
+			$civicoProp = $civico?'gco:haNumeroCivico '.GwHelpers::quote($civico).' ;':'';
+			$capProp = $cap?'gco:cap '.GwHelpers::quote($cap).' ;':'';
 			
 			// write rdf data
 			fwrite( $rdfStream, "
@@ -111,7 +111,7 @@ class CSV extends AbstractGateway {
 	gco:haComune <urn:geocodit:comune:$encodedIdComune>  ;
 	$capProp
 	$civicoProp
-	gco:haToponimoStradale \"".GwHelpers::quote($odonimo)."\" ;
+	gco:haToponimoStradale ".GwHelpers::quote($odonimo,'@it')." ;
 	geo:lat ".GwHelpers::toFloat($latitude)." ;
 	geo:long ".GwHelpers::toFloat($longitude)." 
 .");
