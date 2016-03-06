@@ -3,6 +3,8 @@
 
 GeocodIT is a system that manages a [geocoding](https://en.wikipedia.org/wiki/Geocoding) knowledge base using W3C semantic web best practices and standards.
 
+Data sets on the web are literary exploding. Of course they’re still fragmented and of different quality but that will be fixed and it is only a matter of time. With Linked Open Data, it does not make sense to use only the biggest dataset (i.e. Open Street Map, & Google Maps) because the highest quality data are often in the smallest ones. These are in the long tail of the web. Hence you’ve to use them or you’ll lose a lot of value.
+
 GeocodIT exposes:
 
 - a new geocoder that leverages open data to enrich the results of existing  geocoding services (e.g. Google Maps Bings Maps and OSM);
