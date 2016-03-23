@@ -90,7 +90,7 @@ Of course you can access SPARQL endpoint (e.g. https://hub1.linkeddata.center/de
 
 ### Using geocoder API
 
-The geocoder enpoint will be available at <your server ip or FQDN>/api/geocode (e.g. http://geocodit.linkeddata.center/api)
+The geocoder enpoint will be available at <your server ip or FQDN>/api/geocode (e.g. http://geocodit.linkeddata.center/api/geocode)
 
     geocode?q=address[&trust=trust_profile]
 
@@ -114,7 +114,7 @@ Beside this, you can trust on result from a single provider:
 
 ### Using benchmark API
 
-The benchmark enpoint will be available at <your server ip or FQDN>/api/benchark (e.g. http://geocodit.linkeddata.center/api)
+The benchmark enpoint will be available at <your server ip or FQDN>/api/benchark (e.g. http://geocodit.linkeddata.center/api/benchark)
 
     benchmark?q=address
     
