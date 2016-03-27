@@ -210,7 +210,7 @@ geocodit:policy_istatRegioni  a kees:SparqlIngestion ;
 # Private data 	example loaded from a gist
 #######################################################
 
-geocodit:policy_example kees:source <https://gist.githubusercontent.com/ecow/6f265484b08cf61faed3/raw/0abc2e415655de1a226557dd00663f0e33f578ae/ldc.ttl>;
+geocodit:policy_example kees:source <https://gist.githubusercontent.com/ecow/6f265484b08cf61faed3/raw/0a9dd18a7fc1ba64a008fde2fae2409b146e60e2/ldc.ttl>;
 	kees:onFetchingError _:tryFourTimes ; kees:updateFrequency _:yearly
 .
 

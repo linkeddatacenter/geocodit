@@ -25,7 +25,7 @@ class GeocoderBenchmarkController extends AbstractController {
 		
 		// get default parameters from config
 		$config	 = $context->ns('geocodit');
-		$defaultAddress		= $config->getValue( 'defaultAddress', 	'Via Montefiori 13, 23825 Esino Lario');
+		$defaultAddress		= $config->getValue( 'defaultAddress', 	'Via Montefiori 13, Esino Lario');
 		$penality			= $config->getValue( 'penality',2);
 		
 		// get input patrameters from URL quesry string

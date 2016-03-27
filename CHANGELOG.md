@@ -4,6 +4,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+##  [1.1.2]
+
+### Fixed
+
+- Typos in comments
+- getName bug in GeocoditOSM
 
 ## [1.1.1]
 
@@ -31,6 +37,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - first release
 
 
-[Unreleased]: https://bitbucket.org/linkeddatacenter/geocodit/compare/master%0D1.1.1
+[Unreleased]: https://bitbucket.org/linkeddatacenter/geocodit/compare/master%0D1.1.2
+[1.1.2]: https://bitbucket.org/linkeddatacenter/geocodit/compare/1.1.2%0D1.1.1
 [1.1.1]: https://bitbucket.org/linkeddatacenter/geocodit/compare/1.1.1%0D1.1.0
 [1.1.0]: https://bitbucket.org/linkeddatacenter/geocodit/compare/1.1.0%0D1.0.0

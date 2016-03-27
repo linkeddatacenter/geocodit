@@ -45,7 +45,7 @@ class CSV extends AbstractGateway {
 	/**
 	 * $function is a closure function that get a data array (a row readed by fgetcsv) and returns mandatory an array of 6 values:
 	 * 		$cap (can be null), $civico(can be null), $odonimo, $idComune, $latitude, $longitude. 
-	 * 		$idComune cab be ae comune name or an istat code
+	 * 		$idComune can be be comune name or an istat code
 	 */
 	public function setFieldsSelector( $function ){
 		$this->selector = $function;

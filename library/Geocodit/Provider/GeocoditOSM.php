@@ -134,6 +134,6 @@ class GeocoditOSM extends \Geocoder\Provider\Nominatim
      */
     public function getName()
     {
-        return 'GeocoditOSM';
+        return 'geocoditOSM';
     }
 }
