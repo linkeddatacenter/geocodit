@@ -40,7 +40,7 @@ GeocodIT requires:
 
 - a [LinkedData.Center](http://LinkedData.Center/) account ([free plans
     available](http://linkeddata.center/home/pricing#cta)). For testing purposes a limited 
-    prepoulated knowledge base is available at https://hub1.linkeddata.center/demo (username: demo password: demo)
+    prepoulated knowledge base is available at http://pub.linkeddata.center/demo (username: demo password: demo)
 	Note that the demo kb is "read only" (i.e. you are not enabled to change existing configuration);
 - optional Google Maps API key if you need Google Maps integration;
 - optional Bing Maps API key if you need Bing Maps integration.
