@@ -10,8 +10,8 @@ RewriteRule ^(.*)/$  /$1 [R=301,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule . index.php [L] 
 
-php_flag display_startup_errors on
-php_flag display_errors on
-php_flag html_errors on
-php_flag log_errors on
+#php_flag display_startup_errors on
+#php_flag display_errors on
+#php_flag html_errors on
+#php_flag log_errors on
 
