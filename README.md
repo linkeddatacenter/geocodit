@@ -1,6 +1,8 @@
 # GeocodIT project
 [![Latest Version](https://img.shields.io/packagist/v/linkeddatacenter/geocodit.svg?style=flat-square)](https://packagist.org/packages/linkeddatacenter/geocodit)
 
+**WARNING: this project now is under refactory **
+
 GeocodIT is a system that manages a [geocoding](https://en.wikipedia.org/wiki/Geocoding) knowledge base using W3C semantic web best practices and standards.
 
 Data sets on the web are literary exploding. Of course they’re still fragmented and of different quality but that will be fixed and it is only a matter of time. With Linked Open Data, it does not make sense to use only the biggest dataset (i.e. Open Street Map, & Google Maps) because the highest quality data are often in the smallest ones. These are in the long tail of the web. Hence you’ve to use them or you’ll lose a lot of value.
